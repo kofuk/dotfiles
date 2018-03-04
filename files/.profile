@@ -27,5 +27,10 @@ PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 # golnag
 PATH="/usr/local/go/bin:$PATH"
 
-# remark as android emulator to use system built-in libraries(e.g. libc++.so)
-export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+# Add Android-related environment variables if default directory for Android SDK exists
+if [ -d "$HOME/Android" ]; then
+    # remark as android emulator to use system built-in libraries(e.g. libc++.so)
+    export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+
+    export ANDROID_HOME=$HOME/Android/Sdk
+fi
