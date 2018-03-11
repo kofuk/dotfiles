@@ -21,16 +21,16 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# android platform tools
-PATH="$HOME/Android/Sdk/platform-tools:$PATH"
-
-# golnag
-PATH="/usr/local/go/bin:$PATH"
+# add golang binary path if it exists
+if [ -d "/usr/local/go/bin" ]; then
+    PATH="/usr/local/go/bin:$PATH"
+fi
 
 # Add Android-related environment variables if default directory for Android SDK exists
 if [ -d "$HOME/Android" ]; then
+    export ANDROID_HOME=$HOME/Android/Sdk
+    PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+
     # remark as android emulator to use system built-in libraries(e.g. libc++.so)
     export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-
-    export ANDROID_HOME=$HOME/Android/Sdk
 fi
