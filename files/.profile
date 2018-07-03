@@ -31,6 +31,6 @@ if [ -d "$HOME/Android" ]; then
     export ANDROID_HOME=$HOME/Android/Sdk
     PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
-    # remark as android emulator to use system built-in libraries(e.g. libc++.so)
+    # mark as android emulator to use system built-in libraries(e.g. libc++.so)
     export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 fi
