@@ -1,17 +1,21 @@
-" Set up Vundle
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Set up Vundle if Vundle exists
+if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
+    set nocompatible
+    filetype off
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
 
-" Plugins
-Plugin 'VundleVim/Vundle.vim'
+    " Plugins
+    Plugin 'VundleVim/Vundle.vim'
 
-call vundle#end()
-filetype plugin indent on
+    call vundle#end()
+    filetype plugin indent on
+endif
 
 set noswapfile
 set showcmd
+
+set modeline
 
 " Appearance
 set number
