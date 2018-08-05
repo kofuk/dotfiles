@@ -2,5 +2,5 @@
 DOT_FILES_DIR=$(cd $(dirname $0); pwd)
 cd "$DOT_FILES_DIR"
 for f in `ls -A`; do
-  ln -sf "$DOT_FILES_DIR/$f" "$HOME/$f"
+  ln -sf "$DOT_FILES_DIR/files/$f" "$HOME/$f"
 done
