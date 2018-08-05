@@ -18,6 +18,7 @@ set showcmd
 set modeline
 
 " Appearance
+syntax on
 set number
 set cursorline
 set cursorcolumn
@@ -39,3 +40,4 @@ set tabstop=4
 set autoindent
 set expandtab
 set shiftwidth=4
+set backspace=indent,eol,start
