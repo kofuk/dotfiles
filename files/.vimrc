@@ -9,8 +9,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'VundleVim/Vundle.vim'
 
     call vundle#end()
-    filetype plugin indent on
 endif
+
+filetype plugin indent on
 
 set noswapfile
 set showcmd
