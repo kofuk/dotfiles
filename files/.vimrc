@@ -14,8 +14,6 @@ endif
 filetype plugin indent on
 
 set noswapfile
-set showcmd
-
 set modeline
 
 " Appearance
