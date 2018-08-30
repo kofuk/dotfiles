@@ -4,8 +4,6 @@ autoload -Uz promptinit
 promptinit
 prompt adam1
 
-setopt histignorealldups sharehistory
-
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
@@ -13,11 +11,15 @@ bindkey -e
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
-setopt hist_ignore_all_dups
-setopt hist_ignore_space
-setopt hist_reduce_blanks
-setopt hist_no_store
-setopt hist_save_no_dups
+setopt histignorealldups histignorespace histreduceblanks histnostore \
+    histsavenodups sharehistory
+
+function addhisthook() {
+    local cmd=${1%% *}
+    ! [[ $cmd =~ "(exit|cd|l[as])" ]]
+}
+
+add-zsh-hook zshaddhistory addhisthook
 
 # Use modern completion system
 autoload -Uz compinit
