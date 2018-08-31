@@ -14,7 +14,7 @@ HISTFILE=~/.zsh_history
 setopt histignorealldups histignorespace histreduceblanks histnostore \
     histsavenodups sharehistory
 
-function addhisthook() {
+function _addhisthook() {
     local cmd=${1%% *}
     if ! command -v &>/dev/null; then
         return 1
@@ -22,7 +22,7 @@ function addhisthook() {
     ! [[ $cmd =~ "(exit|cd|l[as])" ]]
 }
 
-add-zsh-hook zshaddhistory addhisthook
+add-zsh-hook zshaddhistory _addhisthook
 
 # Use modern completion system
 autoload -Uz compinit
