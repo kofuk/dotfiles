@@ -16,6 +16,9 @@ setopt histignorealldups histignorespace histreduceblanks histnostore \
 
 function addhisthook() {
     local cmd=${1%% *}
+    if ! command -v &>/dev/null; then
+        return 1
+    fi
     ! [[ $cmd =~ "(exit|cd|l[as])" ]]
 }
 
