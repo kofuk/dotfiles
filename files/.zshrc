@@ -49,6 +49,8 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 alias ls='ls --color=auto'
 alias la='ls --almost-all'
 alias grep='grep --color=auto'
+alias ..='cd ..'
+alias gitstat='git status'
 if command -v crontab &>/dev/null; then
     alias crontab='crontab -i'
 fi
