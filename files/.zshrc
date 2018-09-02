@@ -16,7 +16,7 @@ setopt histignorealldups histignorespace histreduceblanks histnostore \
 
 function _addhisthook() {
     local cmd=${1%% *}
-    if ! command -v &>/dev/null; then
+    if ! command -v "$cmd" &>/dev/null; then
         return 1
     fi
     ! [[ $cmd =~ "(exit|cd|l[as])" ]]
@@ -55,6 +55,10 @@ if command -v crontab &>/dev/null; then
     alias crontab='crontab -i'
 fi
 
+if command -v vim &>/dev/null; then
+    export EDITOR=vim
+fi
+
 # Path
 ## User's private bin
 if [ -d "$HOME/bin" ]; then
@@ -71,4 +75,8 @@ if [ -d "$HOME/Android/Sdk" ]; then
 
     # Force Android emulator to use system built-in library
     export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+fi
+## Flutter
+if [ -d /usr/local/flutter ]; then
+    PATH=/usr/local/flutter/bin:$PATH
 fi
