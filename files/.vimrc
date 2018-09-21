@@ -18,6 +18,7 @@ set modeline
 
 " Appearance
 syntax on
+set synmaxcol=100
 set number
 set cursorline
 set cursorcolumn
@@ -27,9 +28,11 @@ set laststatus=2
 set wildmode=list:longest
 set list listchars=tab:\▸\-,eol:↲,trail:-
 set colorcolumn=80
+set textwidth=80
 set ruler
 set showcmd
 set cmdheight=1
+set scrolloff=30
 
 " Search
 set ignorecase
@@ -44,3 +47,5 @@ set autoindent
 set expandtab
 set shiftwidth=4
 set backspace=indent,eol,start
+
+set diffopt=internal
