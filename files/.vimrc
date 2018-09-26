@@ -28,7 +28,6 @@ set laststatus=2
 set wildmode=list:longest
 set list listchars=tab:\▸\-,eol:↲,trail:-
 set colorcolumn=80
-set textwidth=80
 set ruler
 set showcmd
 set cmdheight=1
