@@ -19,7 +19,7 @@ function _addhisthook() {
     if ! command -v "$cmd" &>/dev/null; then
         return 1
     fi
-    ! [[ $cmd =~ "(exit|cd|l[as])" ]]
+    ! [[ $cmd =~ "(exit|cd|l[as]|\\.\\.)" ]]
 }
 
 add-zsh-hook zshaddhistory _addhisthook
@@ -51,10 +51,10 @@ alias la='ls -A'
 alias ll='ls -alF'
 alias grep='grep --color=auto'
 alias ..='cd ..'
-alias gitstat='git status'
 if command -v crontab &>/dev/null; then
     alias crontab='crontab -i'
 fi
+alias rm='rm -i'
 
 if command -v vim &>/dev/null; then
     export EDITOR=vim
@@ -68,6 +68,9 @@ fi
 ## Golang
 if [ -d /usr/local/golang ]; then
     PATH="/usr/local/golang:$PATH"
+fi
+if [ -d "$HOME/go/bin" ]; then
+    PATH="$PATH:$HOME/go/bin"
 fi
 ## Android SDK
 if [ -d "$HOME/Android/Sdk" ]; then
