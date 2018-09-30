@@ -56,6 +56,10 @@ if command -v crontab &>/dev/null; then
 fi
 alias rm='rm -i'
 
+# Aliases of Git
+alias got='git status'
+alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
+
 if command -v vim &>/dev/null; then
     export EDITOR=vim
 fi
