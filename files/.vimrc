@@ -7,6 +7,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     " Plugins
     Plugin 'VundleVim/Vundle.vim'
+    Plugin 'ap/vim-css-color'
 
     call vundle#end()
 endif
@@ -18,6 +19,7 @@ set modeline
 
 " Appearance
 syntax on
+set ambiwidth=double
 set synmaxcol=100
 set number
 set cursorline
@@ -48,3 +50,5 @@ set shiftwidth=4
 set backspace=indent,eol,start
 
 set diffopt=internal
+
+source $VIMRUNTIME/macros/matchit.vim
