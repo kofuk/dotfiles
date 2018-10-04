@@ -51,4 +51,18 @@ set backspace=indent,eol,start
 
 set diffopt=internal
 
+" Complation
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+
+if has("autocmd")
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal! g'\"'" |
+                \ endif
+endif
+
 source $VIMRUNTIME/macros/matchit.vim
