@@ -20,7 +20,7 @@ set modeline
 " Appearance
 syntax on
 set ambiwidth=double
-set synmaxcol=100
+set synmaxcol=200
 set number
 set cursorline
 set cursorcolumn
