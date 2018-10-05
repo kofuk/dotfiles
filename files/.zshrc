@@ -1,8 +1,13 @@
 # Set up the prompt
-
-autoload -Uz promptinit
-promptinit
-prompt adam1
+if command -v npm &>/dev/null && npm ls -g pure-prompt &>/dev/null; then
+    # Nodejs' prefix must be set to ~/.npm_global
+    fpath+=("$HOME/.npm_global/lib/node_modules/pure-prompt/functions")
+    autoload -Uz promptinit; promptinit
+    prompt pure
+else
+    autoload -Uz promptinit; promptinit
+    prompt adam
+fi
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -12,7 +17,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 setopt histignorealldups histignorespace histreduceblanks histnostore \
-    histsavenodups sharehistory
+    histsavenodups sharehistory histverify
 
 function _addhisthook() {
     local cmd=${1%% *}
@@ -23,6 +28,9 @@ function _addhisthook() {
 }
 
 add-zsh-hook zshaddhistory _addhisthook
+
+autoload -U select-word-style
+select-word-style bash
 
 # Use modern completion system
 autoload -Uz compinit
@@ -45,6 +53,18 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# Enable and load Auto cd configuration if it exists.
+if [ -f "$HOME/.autocds" ]; then
+    setopt autocd
+    source "$HOME/.autocds"
+fi
+
+# notify when background job finishes
+setopt notify
+
+# Detect typo and suggest correct command
+setopt correct
 
 alias ls='ls --color=auto'
 alias la='ls -A'
@@ -87,4 +107,8 @@ fi
 ## Flutter
 if [ -d /usr/local/flutter ]; then
     PATH=/usr/local/flutter/bin:$PATH
+fi
+# Node.js
+if [ -d "$HOME/npm_global/bin" ]; then
+    PATH=$HOME/npm_global/bin:$PATH
 fi
