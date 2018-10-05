@@ -9,6 +9,10 @@ else
     prompt adam1
 fi
 
+# Right prompt
+RPROMPT='$(date +%H:%M)'
+setopt transientrprompt
+
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
