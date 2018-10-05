@@ -49,7 +49,9 @@ set expandtab
 set shiftwidth=4
 set backspace=indent,eol,start
 
-set diffopt=internal
+if has("diffopt")
+    set diffopt=internal
+endif
 
 " Complation
 inoremap { {}<LEFT>

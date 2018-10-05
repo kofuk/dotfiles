@@ -6,7 +6,7 @@ if command -v npm &>/dev/null && npm ls -g pure-prompt &>/dev/null; then
     prompt pure
 else
     autoload -Uz promptinit; promptinit
-    prompt adam
+    prompt adam1
 fi
 
 # Use emacs keybindings even if our EDITOR is set to vi
