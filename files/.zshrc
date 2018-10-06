@@ -58,6 +58,8 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+source ~/dotfiles/incl/incr.zsh
+
 # Enable and load Auto cd configuration if it exists.
 if [ -f "$HOME/.autocds" ]; then
     setopt autocd
