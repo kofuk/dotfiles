@@ -118,3 +118,11 @@ fi
 if [ -d "$HOME/npm_global/bin" ]; then
     PATH=$HOME/npm_global/bin:$PATH
 fi
+
+# Utilities
+function gengif() {
+    local palettepath="/tmp/palette_$RANDOM.png"
+    ffmpeg -i "$1" -vf palettegen "$palettepath"
+    ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
+    rm -f "$palettepath"
+}
