@@ -54,7 +54,7 @@ if has("diffopt")
 endif
 
 " Complation
-inoremap { {}<LEFT>
+inoremap { {}<LEFT><ENTER><ENTER><UP><TAB>
 inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
