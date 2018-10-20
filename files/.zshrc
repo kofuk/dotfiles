@@ -76,7 +76,6 @@ alias ls='ls --color=auto'
 alias la='ls -A'
 alias ll='ls -alF'
 alias grep='grep --color=auto'
-alias ..='cd ..'
 if command -v crontab &>/dev/null; then
     alias crontab='crontab -i'
 fi

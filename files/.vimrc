@@ -8,6 +8,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " Plugins
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'ap/vim-css-color'
+    Plugin 'udalov/kotlin-vim'
 
     call vundle#end()
 endif
