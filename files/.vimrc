@@ -35,6 +35,7 @@ set ruler
 set showcmd
 set cmdheight=1
 set scrolloff=30
+set ttyfast
 
 " Search
 set ignorecase
@@ -55,7 +56,7 @@ if has("diffopt")
 endif
 
 " Complation
-inoremap { {}<LEFT><ENTER><ENTER><UP><TAB>
+inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
@@ -67,5 +68,11 @@ if has("autocmd")
                 \   exe "normal! g'\"'" |
                 \ endif
 endif
+
+" netrw
+let g:netrw_liststyle=3
+let g:netrw_banner=0
+let g:netrw_altv=1
+let g:netrw_winsize=70
 
 source $VIMRUNTIME/macros/matchit.vim

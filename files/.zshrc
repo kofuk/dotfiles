@@ -54,11 +54,13 @@ zstyle ':completion:*' menu select=long
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
+zstyle ':completion:*' list-separator ' >>> '
+zstyle ':completion:*:manuals' separate-sections true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-source ~/dotfiles/incl/incr.zsh
+setopt completeinword alwayslastprompt automenu magicequalsubst
 
 # Enable and load Auto cd configuration if it exists.
 if [ -f "$HOME/.autocds" ]; then
@@ -114,8 +116,8 @@ if [ -d /usr/local/flutter ]; then
     PATH=/usr/local/flutter/bin:$PATH
 fi
 # Node.js
-if [ -d "$HOME/npm_global/bin" ]; then
-    PATH=$HOME/npm_global/bin:$PATH
+if [ -d "$HOME/.npm_global/bin" ]; then
+    PATH=$HOME/.npm_global/bin:$PATH
 fi
 
 # Utilities
