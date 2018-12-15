@@ -39,7 +39,7 @@
 ;; Disable bell
 (setq ring-bell-function 'ignore)
 ;; Save cursor position
-(save-place-mode 1)
+(if (fboundp 'save-place-mode) (save-place-mode 1) (setq-default save-place t))
 ;; Follow symbolic links to versioned files
 (setq vc-follow-symlinks t)
 ;; Don't make backup file
