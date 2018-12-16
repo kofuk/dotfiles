@@ -30,7 +30,7 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export PS1='$(if ! [ -z "$SSH_CONNECTION" ]; then echo "\[\033[01;32m\]\h\[\033[00m\]:"; fi)\[\033[01;34m\]$(~/dotfiles/util/pwd.py)\[\033[0m\] \$ '
+export PS1='$(if ! [ -z "$SSH_CONNECTION" ]; then echo "\[\033[01;32m\]\h\[\033[00m\]:"; fi)\[\033[01;34m\]$(~/dotfiles/util/pwd.pl)\[\033[0m\] \$ '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
