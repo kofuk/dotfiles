@@ -2,10 +2,13 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;(package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 
+(add-to-list 'load-path "~/src/el")
+
+(setq make-backup-files nil)
+(setq abbrev-mode t)
 (global-font-lock-mode 1)
 (setq font-lock-support-mode 'jit-lock-mode)
 (setq font-lock-maximum-decornation t)
@@ -13,7 +16,6 @@
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 ;; Auto complete
-(require 'auto-complete-config)
 (ac-config-default)
 (setq ac-use-menu-map t)
 (global-auto-complete-mode 1)
@@ -45,7 +47,6 @@
 ;; Don't make backup file
 (setq make-backup-files t)
 ;; Show whitespaces
-(require 'whitespace)
 (setq whitespace-style '(face trailing tabs tab-mark))
 (global-whitespace-mode 1)
 ;; Make inserting line easy
@@ -56,14 +57,28 @@
   (newline)
   (indent-for-tab-command))
 (global-set-key "\C-j" 'open-next-line)
-;; Golang
-(require 'company-go)
+;; Make Emacs to put '\n' at the end of file
+(setq require-final-newline t)
+;; Spell check
+(setq-default ispell-program-name "aspell")
+;; Enable flyspell mode automatically only if I edit plain text file.
+;; flyspell-prog-mode disturb completion from working properly thus I don't
+;; enable it if I edit source code.
+(mapc (lambda (hook)
+	(add-hook hook '(lambda () (flyspell-mode 1))))
+      '(text-mode-hook))
+(setq save-abbrevs t)
+(quietly-read-abbrev-file)
+(global-set-key "\C-x'" 'just-one-space)
+(global-set-key "\M- " 'dabbrev-expand)
+(global-set-key "\M-/" 'expand-abbrev)
+(eval-after-load "abbrev" '(global-set-key "\M-/" 'expand-abbrev))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (auto-complete company-go))))
+ '(package-selected-packages '(nhexl-mode auto-complete company-go)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -77,12 +92,11 @@
  '(font-lock-type-face ((t (:foreground "brightcyan"))))
  '(font-lock-variable-name-face ((t (:foreground "brightblue"))))
  '(whitespace-tab ((t (:foreground "lightgray")))))
-;; Set up initial layout
-(add-hook 'after-init-hook (lambda()
-			      (setq w (selected-window))
-			      (setq dired-window (split-window-horizontally (- (window-width w) 30)))
-			      (select-window dired-window)
-			      (dired ".")
-			      (select-window w)))
+
 (add-hook 'dired-mode-hook (lambda()
 			     (dired-hide-details-mode)))
+
+(require 'postfix)
+(add-to-list 'postfix-snippets-alist '("go" . "~/.emacs.d/postfix-snip/go"))
+(add-to-list 'postfix-snippets-alist '("c" . "~/.emacs.d/postfix-snip/c"))
+(global-set-key (kbd "C-c RET") 'postfix-completion)

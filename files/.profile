@@ -26,6 +26,11 @@ if [ -d "/usr/local/go/bin" ]; then
     PATH="/usr/local/go/bin:$PATH"
 fi
 
+# add go binary path if it exists
+if [ -d "$HOME/go/bin" ]; then
+    PATH="$PATH:$HOME/go/bin"
+fi
+
 # Add Android-related environment variables if default directory for Android SDK exists
 if [ -d "$HOME/Android" ]; then
     export ANDROID_HOME=$HOME/Android/Sdk

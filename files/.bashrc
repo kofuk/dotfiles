@@ -49,8 +49,20 @@ fi
 
 # some more ls aliases
 alias ll='ls -alF'
+alias llh='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
+alias rm='rm -i'
+alias ..='cd ..'
+alias em='emacs'
+
+function godoc(){
+    go doc "$@" | less
+}
+
+if command -v w3m > /dev/null; then
+    alias w3m='w3m https://www.google.co.jp/'
+fi
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -78,7 +90,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export EDITOR=emacs
+
 # default to prompt when deleting existing crontab in case it is deleted unexpectedly.
 if command -v crontab > /dev/null; then
   alias crontab="crontab -i"
 fi
+
+# Utilities
+function gengif() {
+    local palettepath="/tmp/palette_$RANDOM.png"
+    ffmpeg -i "$1" -vf palettegen "$palettepath"
+    ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
+    rm -f "$palettepath"
+}
