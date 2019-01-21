@@ -54,6 +54,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias rm='rm -i'
 alias ..='cd ..'
+alias emacs='emacsclient -nw -a ""'
 alias em='emacs'
 
 function godoc(){

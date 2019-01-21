@@ -12,7 +12,6 @@
 (global-font-lock-mode 1)
 (setq font-lock-support-mode 'jit-lock-mode)
 (setq font-lock-maximum-decornation t)
-(global-linum-mode)
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 ;; Auto complete
@@ -22,9 +21,6 @@
 ;; Display line and column number in mode line.
 (line-number-mode 1)
 (column-number-mode 1)
-;; Display line number in left of the display.
-;; Reserve 4 columns for 1000-line-over files.
-(setq linum-format "%4d \u2502")
 (setq transient-mark-mode t)
 (setq hl-line-face 'underline)
 ;; Display datetime.
