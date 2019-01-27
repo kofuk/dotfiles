@@ -54,8 +54,10 @@ alias la='ls -A'
 alias l='ls -CF'
 alias rm='rm -i'
 alias ..='cd ..'
-alias emacs='emacsclient -nw -a ""'
-alias em='emacs'
+if command -v emacs &>/dev/null; then
+    alias emacs='emacsclient -nw -a ""'
+    alias em='emacs'
+fi
 
 function godoc(){
     go doc "$@" | less
@@ -99,9 +101,11 @@ if command -v crontab > /dev/null; then
 fi
 
 # Utilities
-function gengif() {
-    local palettepath="/tmp/palette_$RANDOM.png"
-    ffmpeg -i "$1" -vf palettegen "$palettepath"
-    ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
-    rm -f "$palettepath"
-}
+if command -v ffmpeg &>/dev/null; then
+    function gengif() {
+	local palettepath="/tmp/palette_$RANDOM.png"
+	ffmpeg -i "$1" -vf palettegen "$palettepath"
+	ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
+	rm -f "$palettepath"
+    }
+fi
