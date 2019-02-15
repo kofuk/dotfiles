@@ -7,17 +7,14 @@
 
 (add-to-list 'load-path "~/src/el")
 
+(load-theme 'manoj-dark t)
+
 (setq make-backup-files nil)
-(setq abbrev-mode t)
 (global-font-lock-mode 1)
 (setq font-lock-support-mode 'jit-lock-mode)
 (setq font-lock-maximum-decornation t)
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
-;; Auto complete
-(ac-config-default)
-(setq ac-use-menu-map t)
-(global-auto-complete-mode 1)
 ;; Display line and column number in mode line.
 (line-number-mode 1)
 (column-number-mode 1)
@@ -64,6 +61,12 @@
 (mapc (lambda (hook)
 	(add-hook hook '(lambda () (flyspell-mode 1))))
       '(text-mode-hook))
+;; Auto complete
+(ac-config-default)
+(setq ac-use-menu-map t)
+(global-auto-complete-mode 1)
+;; Abbrev
+(setq abbrev-mode t)
 (setq save-abbrevs t)
 (quietly-read-abbrev-file)
 (global-set-key "\C-x'" 'just-one-space)
@@ -83,21 +86,13 @@
      (other . "bsd"))))
  '(package-selected-packages
    (quote
-    (go-mode magit git-commit nhexl-mode auto-complete company-go))))
+    (ac-php go-mode magit git-commit nhexl-mode auto-complete company-go))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-builtin-face ((t (:foreground "cyan"))))
- '(font-lock-comment-face ((t (:foreground "brightblack"))))
- '(font-lock-function-name-face ((t (:foreground "white"))))
- '(font-lock-keyword-face ((t (:foreground "brightyellow"))))
- '(font-lock-string-face ((t (:foreground "magenta"))))
- '(font-lock-type-face ((t (:foreground "brightcyan"))))
- '(font-lock-variable-name-face ((t (:foreground "brightblue"))))
- '(whitespace-tab ((t (:foreground "lightgray")))))
-
+ )
 (add-hook 'dired-mode-hook (lambda()
 			     (dired-hide-details-mode)))
 
