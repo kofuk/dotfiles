@@ -5,8 +5,6 @@
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(add-to-list 'load-path "~/src/el")
-
 (load-theme 'manoj-dark t)
 
 (setq make-backup-files nil)
@@ -27,12 +25,21 @@
 (display-time)
 (display-time-mode 1)
 (global-hl-line-mode)
+;; Start up screen
+(setq inhibit-startup-screen t)
 ;; Disable menu bar since it is not needed.
 (menu-bar-mode -1)
 ;; Use C-h as <Delback>.
 (global-set-key "\C-h" 'delete-backward-char)
-;; Disable bell
-(setq ring-bell-function 'ignore)
+;; ido
+(ido-mode 1)
+(ido-everywhere 1)
+(setq ido-enable-flex-matching t)
+;; Alternate bell
+(defun modeline-bell ()
+  (set-face-background 'mode-line "brightyellow")
+  (run-at-time "100 millisec" nil #'set-face-background #'mode-line "white"))
+(setq ring-bell-function 'modeline-bell)
 ;; Save cursor position
 (if (fboundp 'save-place-mode) (save-place-mode 1) (setq-default save-place t))
 ;; Follow symbolic links to versioned files
@@ -61,10 +68,14 @@
 (mapc (lambda (hook)
 	(add-hook hook '(lambda () (flyspell-mode 1))))
       '(text-mode-hook))
+(global-set-key (kbd "C-c <C-right>") 'next-buffer)
+(global-set-key (kbd "C-c <C-left>") 'previous-buffer)
 ;; Auto complete
-(ac-config-default)
-(setq ac-use-menu-map t)
-(global-auto-complete-mode 1)
+(use-package auto-complete
+  :config
+  (ac-config-default)
+  (setq ac-use-menu-map t)
+  (global-auto-complete-mode 1))
 ;; Abbrev
 (setq abbrev-mode t)
 (setq save-abbrevs t)
@@ -84,9 +95,13 @@
     ((java-mode . "java")
      (awk-mode . "awk")
      (other . "bsd"))))
+ '(default-input-method "japanese-skk")
+ '(global-fixmee-mode t)
+ '(global-git-gutter-mode t)
  '(package-selected-packages
    (quote
-    (ac-php go-mode magit git-commit nhexl-mode auto-complete company-go))))
+    (mmm-mode twittering-mode smartparens git-gutter bison-mode eglot lsp-mode ddskk ac-php go-mode magit git-commit nhexl-mode auto-complete company-go)))
+ '(smartparens-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -96,7 +111,21 @@
 (add-hook 'dired-mode-hook (lambda()
 			     (dired-hide-details-mode)))
 
-(require 'postfix)
-(add-to-list 'postfix-snippets-alist '("go" . "~/.emacs.d/postfix-snip/go"))
-(add-to-list 'postfix-snippets-alist '("c" . "~/.emacs.d/postfix-snip/c"))
-(global-set-key (kbd "C-c RET") 'postfix-completion)
+(setq skk-jisyo-code 'utf-8)
+
+(use-package eglot
+  :config
+  (when (executable-find "clangd-9")
+    (add-to-list 'eglot-server-programs '((c-mode c++-mode ) "clangd-9")))
+  (when (executable-find "clnagd")
+    (add-to-list 'eglot-server-programs '((c-mode c++-mode ) "clangd")))
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure))
+
+(use-package twittering-mode
+  :config
+  (if (file-exists-p (expand-file-name "~/.emacs.d/twit.el"))
+      (load (expand-file-name "~/.emacs.d/twit.el")))
+  (setq twittering-timer-interval 60)
+  (setq twittering-display-remaining t)
+  (define-key twittering-mode-map "F" 'twittering-favorite))
