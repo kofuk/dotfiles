@@ -37,7 +37,7 @@
 (setq ido-enable-flex-matching t)
 ;; Alternate bell
 (defun modeline-bell ()
-  (set-face-background 'mode-line "brightyellow")
+  (set-face-background 'mode-line "yellow")
   (run-at-time "100 millisec" nil #'set-face-background #'mode-line "white"))
 (setq ring-bell-function 'modeline-bell)
 ;; Save cursor position
@@ -58,6 +58,8 @@
   (newline)
   (indent-for-tab-command))
 (global-set-key "\C-j" 'open-next-line)
+(global-set-key (kbd "C-c -") 'split-window-vertically)
+(global-set-key (kbd "C-c |") 'split-window-horizontally)
 ;; Make Emacs to put '\n' at the end of file
 (setq require-final-newline t)
 ;; Spell check
@@ -100,7 +102,7 @@
  '(global-git-gutter-mode t)
  '(package-selected-packages
    (quote
-    (mmm-mode twittering-mode smartparens git-gutter bison-mode eglot lsp-mode ddskk ac-php go-mode magit git-commit nhexl-mode auto-complete company-go)))
+    (ac-html mmm-mode twittering-mode smartparens git-gutter bison-mode eglot lsp-mode ddskk ac-php go-mode magit git-commit nhexl-mode auto-complete company-go)))
  '(smartparens-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
