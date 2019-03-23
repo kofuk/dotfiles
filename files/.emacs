@@ -102,7 +102,7 @@
  '(global-git-gutter-mode t)
  '(package-selected-packages
    (quote
-    (ac-html mmm-mode twittering-mode smartparens git-gutter bison-mode eglot lsp-mode ddskk ac-php go-mode magit git-commit nhexl-mode auto-complete company-go)))
+    (web-mode ac-html mmm-mode twittering-mode smartparens git-gutter bison-mode eglot lsp-mode ddskk go-mode magit git-commit nhexl-mode auto-complete company-go)))
  '(smartparens-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -131,3 +131,10 @@
   (setq twittering-timer-interval 60)
   (setq twittering-display-remaining t)
   (define-key twittering-mode-map "F" 'twittering-favorite))
+
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (setq web-mode-markup-indent-offset 2))
