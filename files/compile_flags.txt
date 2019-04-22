@@ -1,1 +1,14 @@
 -Wall
+-Wextra
+-Wunused-macros
+-Wshadow
+-Wpointer-arith
+-Wcast-qual
+-Wcast-align
+-Wconversion
+-Waggregate-return
+-Wstrict-prototypes
+-Wmissing-declarations
+-Wredundant-decls
+-Wnested-externs
+-Winline
