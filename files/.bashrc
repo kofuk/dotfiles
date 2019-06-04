@@ -101,6 +101,8 @@ if command -v emacs &>/dev/null; then
     alias em='emacs'
 fi
 
+alias ssh='ssh -o VisualHostKey=yes'
+
 function godoc(){
     go doc "$@" | less
 }
