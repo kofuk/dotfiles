@@ -179,3 +179,7 @@ if command -v uplatex > /dev/null && command -v dvipdfmx > /dev/null; then
         )
     }
 fi
+
+if [ -e "$HOME/.bashrc-local" ]; then
+    . "$HOME/.bashrc-local"
+fi
