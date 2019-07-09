@@ -183,3 +183,11 @@ fi
 if [ -e "$HOME/.bashrc-local" ]; then
     . "$HOME/.bashrc-local"
 fi
+
+if command -v pygmentize >/dev/null; then
+    alias pcat='pygmentize'
+fi
+
+if command -v git >/dev/null; then
+    alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
+fi
