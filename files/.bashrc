@@ -191,3 +191,20 @@ fi
 if command -v git >/dev/null; then
     alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 fi
+
+if command -v docker >/dev/null; then
+    function shgei() {
+        local fname=${1:-/tmp/script}
+        if [[ ! -e "$fname" ]] || [[ -d "$fname" ]]; then
+            echo "shgei: $fname: No such file"
+            exit 1
+        fi
+        if [[ "$(dirname "$fname")" != /tmp ]]; then
+           cp "$fname" /tmp/script
+        fi
+        sudo docker run --rm --net=none -m 100m --oom-kill-disable --pids-limit 1024 \
+             --cap-add sys_ptrace -v /tmp/script:/script -v /tmp/images:/images \
+             -v /tmp/media:/media  theoldmoon0602/shellgeibot \
+             bash -c 'chmod +x /script && sync && ./script | head -c 100K'
+    }
+fi
