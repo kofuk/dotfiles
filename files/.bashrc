@@ -202,7 +202,7 @@ if command -v docker >/dev/null; then
         if [[ "$(dirname "$fname")" != /tmp ]]; then
            cp "$fname" /tmp/script
         fi
-        sudo docker run --rm --net=none -m 100m --oom-kill-disable --pids-limit 1024 \
+        time sudo docker run --rm --net=none -m 100m --oom-kill-disable --pids-limit 1024 \
              --cap-add sys_ptrace -v /tmp/script:/script -v /tmp/images:/images \
              -v /tmp/media:/media  theoldmoon0602/shellgeibot \
              bash -c 'chmod +x /script && sync && ./script | head -c 100K'
