@@ -207,4 +207,6 @@ if command -v docker >/dev/null; then
              -v /tmp/media:/media  theoldmoon0602/shellgeibot \
              bash -c 'chmod +x /script && sync && ./script | head -c 100K'
     }
+
+    alias ubuntu='docker run --rm -it ubuntu:18.04 bash'
 fi
