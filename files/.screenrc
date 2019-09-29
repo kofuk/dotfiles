@@ -1,0 +1,12 @@
+defutf8 on
+defencodinf utf8
+encoding utf8 utf8
+startup_message off
+vbell on
+escape ^Tt
+defscrollback 10000
+altscreen on
+defbce on
+term xterm-256color
+hardstatus alwaysfirstline "%{= cd} %-w%{= wk} %n %t* %{-}%+w"
+shell $SHELL
