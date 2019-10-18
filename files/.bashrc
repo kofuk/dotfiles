@@ -169,14 +169,7 @@ if command -v uplatex > /dev/null && command -v dvipdfmx > /dev/null; then
             echo 'Please specify a texname' >&2
             exit 1
         fi
-        local source_path="$(realpath ${1%.tex})"
-        local texname="$(basename "$source_path")"
-        (
-            cd /tmp
-            uplatex "$source_path" && \
-                dvipdfmx "/tmp/${texname}.dvi" && \
-                mv "/tmp/${texname}.pdf" "${source_path}.pdf"
-        )
+        uplatex "$1" && dvipdfmx "$1"
     }
 fi
 
