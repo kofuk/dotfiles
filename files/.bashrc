@@ -169,7 +169,7 @@ if command -v uplatex > /dev/null && command -v dvipdfmx > /dev/null; then
             echo 'Please specify a texname' >&2
             exit 1
         fi
-        uplatex "$1" && dvipdfmx "$1"
+        uplatex "$1" && dvipdfmx "${1%.tex}.dvi"
     }
 fi
 
