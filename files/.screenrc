@@ -3,7 +3,7 @@ defencodinf utf8
 encoding utf8 utf8
 startup_message off
 vbell on
-escape ^Tt
+escape ^Vv
 defscrollback 10000
 altscreen on
 defbce on
