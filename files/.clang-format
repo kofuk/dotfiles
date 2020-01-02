@@ -1,6 +1,8 @@
 BasedOnStyle: LLVM
-IndentWidth: 4
-UseTab: Never
-BreakBeforeBraces: Linux
+AccessModifierOffset: -4
+AlignEscapedNewlines: Left
 AllowShortIfStatementsOnASingleLine: true
-IndentCaseLabels: false
+AllowAllParametersOfDeclarationOnNextLine: true
+BreakBeforeBraces: Attach
+IndentWidth: 4
+NamespaceIndentation: All

@@ -169,6 +169,43 @@ if command -v ffmpeg &>/dev/null; then
         ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
         rm -f "$palettepath"
     }
+
+    function screenrecord() {
+        if [ "$XDG_SESSION_TYPE" != "x11" ]; then
+            echo 'Must run in Xorg session.'
+            return 1
+        fi
+
+        local dimen="$(xdpyinfo | grep dimensions | head -n 1 | awk '{print $2}')"
+        if [ -z "$dimen" ]; then
+            echo 'Cannot retrive screen dimension.'
+
+            return 1
+        fi
+
+        if [ $# -eq 0 ]; then
+            echo 'screenrecord: fatal: Must specify output filename.'
+            return 1;
+        elif [ $# -ge 1 ]; then
+            if [ "$1" = '--help' ]; then
+                echo 'Usage: screenrecord [--with-audio] OUTNAME'
+
+                return 0
+            elif [ "$1" = '--with-autio' ]; then
+                if [ $# -ge 2 ]; then
+                    ffmpeg -video_size "$dimen" -framerate 25 -f x11grab -i :0.0+0,0 -f pulse -ac 2 -i default "$2"
+                else
+                    echo 'Must specify output filename.'
+
+                    return 1
+                fi
+            else
+                ffmpeg -video_size "$dimen" -framerate 25 -f x11grab -i :0.0+0,0 "$1"
+
+                return 1
+            fi
+        fi
+    }
 fi
 
 if command -v uplatex > /dev/null && command -v dvipdfmx > /dev/null; then
