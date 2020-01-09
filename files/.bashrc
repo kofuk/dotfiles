@@ -105,7 +105,7 @@ alias l='ls -CF'
 alias rm='rm -i'
 alias ..='cd ..'
 if command -v emacs &>/dev/null; then
-    alias emacs='emacsclient -nw -a ""'
+    alias emacs='emacsclient -c -a ""'
     alias em='emacs'
 fi
 
@@ -191,7 +191,7 @@ if command -v ffmpeg &>/dev/null; then
                 echo 'Usage: screenrecord [--with-audio] OUTNAME'
 
                 return 0
-            elif [ "$1" = '--with-autio' ]; then
+            elif [ "$1" = '--with-audio' ]; then
                 if [ $# -ge 2 ]; then
                     ffmpeg -video_size "$dimen" -framerate 25 -f x11grab -i :0.0+0,0 -f pulse -ac 2 -i default "$2"
                 else
