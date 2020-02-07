@@ -143,15 +143,6 @@ fi
 
 export EDITOR=emacs
 
-if command -v ccache > /dev/null; then
-    if ! [ -d "$HOME/.ccache" ]; then
-        mkdir "$HOME/.ccache"
-    fi
-    export USE_CCACHE=1
-    export CCACHE_DIR="$HOME/.ccache"
-    export CC='ccache gcc'
-fi
-
 # default to prompt when deleting existing crontab in case it is deleted unexpectedly.
 if command -v crontab > /dev/null; then
     alias crontab="crontab -i"
