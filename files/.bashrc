@@ -115,10 +115,6 @@ function godoc(){
     go doc "$@" | less
 }
 
-if command -v w3m > /dev/null; then
-    alias w3m='w3m https://www.google.co.jp/'
-fi
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 if command -v notify-send > /dev/null; then
@@ -159,6 +155,10 @@ fi
 # default to prompt when deleting existing crontab in case it is deleted unexpectedly.
 if command -v crontab > /dev/null; then
     alias crontab="crontab -i"
+fi
+
+if command -v hugo > /dev/null && [ ! -z "$EDITOR" ]; then
+    alias hugonew='hugo new --editor='"$EDITOR"
 fi
 
 # Utilities
