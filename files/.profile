@@ -31,15 +31,6 @@ if [ -d "$HOME/go/bin" ]; then
     PATH="$PATH:$HOME/go/bin"
 fi
 
-# Add Android-related environment variables if default directory for Android SDK exists
-if [ -d "$HOME/Android" ]; then
-    export ANDROID_HOME="$HOME/Android/Sdk"
-    PATH="$HOME/Android/Sdk/platform-tools:$PATH"
-
-    # mark as android emulator to use system built-in libraries(e.g. libc++.so)
-    export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-fi
-
 if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
