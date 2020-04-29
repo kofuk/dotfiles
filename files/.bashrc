@@ -108,16 +108,8 @@ if ! shopt -oq posix; then
     fi
 fi
 
-export EDITOR=emacs
-
-# default to prompt when deleting existing crontab in case it is deleted unexpectedly.
-if command -v crontab > /dev/null; then
-    alias crontab="crontab -i"
-fi
-
-if command -v hugo > /dev/null && [ ! -z "$EDITOR" ]; then
-    alias hugonew='hugo new --editor='"$EDITOR"
-fi
+# Though I mainly use Emacs, specify Vim here to use it on light work.
+export EDITOR=vim
 
 # Utilities
 if command -v ffmpeg &>/dev/null; then
