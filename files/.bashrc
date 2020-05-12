@@ -75,6 +75,19 @@ esac
 
 unset host
 
+function __exit_code_prompt() {
+    local last_exit="$?"
+    if [ "$last_exit" -eq 0 ]; then
+        echo -en '\e[38;5;14m'
+    else
+        echo -en '\e[38;5;13m'
+    fi
+    echo -n "=>[$last_exit]"
+    echo -e '\e[0m'
+}
+
+export PROMPT_COMMAND=__exit_code_prompt
+
 export PROMPT_DIRTRIM=5
 
 # enable color support of ls and also add handy aliases
