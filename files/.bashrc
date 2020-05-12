@@ -97,6 +97,10 @@ if command -v make &>/dev/null; then
     alias make='time make'
 fi
 
+if command -v cmake &>/dev/null; then
+    alias dmake='cmake -DCMAKE_INSTALL_PREFIX="$HOME" -DCMAKE_BUILD_TYPE=Debug'
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
