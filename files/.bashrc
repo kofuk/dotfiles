@@ -183,6 +183,19 @@ function texclean() {
     rm -f *.aux *.dvi *.log *.toc
 }
 
+function tofu() {
+    if [ "$#" -ne 1 ]; then
+        echo 'usage: tofu FILE' >&2
+        return 1
+    fi
+    local enc="$(uchardet "$1")"
+    if [ "$enc" = 'unknown' ]; then
+        echo 'Unable to determine original encoding'
+        return 1
+    fi
+    uconv -f "$enc" "$1"
+}
+
 # Set secret environment variables, namely api keys and so on
 if [ -e "$HOME/.secret.env" ]; then
     . "$HOME/.secret.env"
