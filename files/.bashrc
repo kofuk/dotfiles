@@ -30,21 +30,6 @@ shopt -s globstar
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
 
 if [ -z "$SSH_CLIENT" ]; then
     host=
@@ -52,12 +37,15 @@ else
     host='@\h'
 fi
 
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
 if [ "$color_prompt" = yes ]; then
     PS1="\[\033[01;32m\]\u$host\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "
 else
     PS1="\u$host:\w\$ "
 fi
-unset color_prompt force_color_prompt
+unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -92,15 +80,14 @@ function __exit_code_prompt() {
     echo -e '\e[0m'
 }
 
-export PROMPT_COMMAND=__exit_code_prompt
-
-export PROMPT_DIRTRIM=5
+PROMPT_COMMAND=__exit_code_prompt
+PROMPT_DIRTRIM=5
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
 
+    alias ls='ls --color=auto'
     alias grep='grep --color=auto'
 fi
 
@@ -111,7 +98,9 @@ alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
 alias make='time make'
 alias dmake='cmake -DCMAKE_INSTALL_PREFIX="$HOME" -DCMAKE_BUILD_TYPE=Debug'
-alias clip='xclip -selection clipboard'
+alias cbcopy='xclip -selection clipboard'
+alias cbpaste='xclip -selection clipboard -o'
+alias diff='diff -u --color=auto'
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 
