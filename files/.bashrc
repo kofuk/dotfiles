@@ -103,6 +103,7 @@ alias cbpaste='xclip -selection clipboard -o'
 alias diff='diff -u --color=auto'
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
+alias uplatex='uplatex -halt-on-error'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -170,6 +171,20 @@ function tex2pdf() {
 
 function texclean() {
     rm -f *.aux *.dvi *.log *.toc
+}
+
+function texwatch() {
+    if [ "$#" -lt 1 ]; then
+        echo 'texname required.' >&2
+        return 1
+    fi
+    local filename="$1"
+    if ! echo "$filename" | grep '\.tex$' &>/dev/null; then
+        filename="$filename.tex"
+    fi
+    inotifywait -meclose_write -- "$filename" | while read; do
+        tex2pdf "$filename" || echo -e '\e[37;41m              TeX COMPILATION FAILED!              \e[0m';
+    done
 }
 
 function tofu() {
