@@ -70,9 +70,11 @@ function __exit_code_prompt() {
     fi
     if [ "$last_exit" -gt 128 ]; then
         local signum="$((last_exit-128))"
-        local signal="SIG$(kill -l "$signum" 2>/dev/null)"
-        if [ "$?" -ne 0 ]; then
+        local signal="$(kill -l "$signum" 2>/dev/null)"
+        if [ -z "$signal" ]; then
             signal='unknown signal'
+        else
+            signal="SIG$signal"
         fi
         message="failure ($last_exit/$signal)"
     fi

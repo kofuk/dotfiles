@@ -34,3 +34,7 @@ fi
 if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+if command -v opam &>/dev/null; then
+    eval $(opam env)
+fi
