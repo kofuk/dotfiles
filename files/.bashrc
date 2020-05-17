@@ -106,6 +106,8 @@ alias diff='diff -u --color=auto'
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 alias uplatex='uplatex -halt-on-error'
+# hack to use aliases on sudo.
+alias sudo='sudo '
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
