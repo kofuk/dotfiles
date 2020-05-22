@@ -203,9 +203,22 @@ function texwatch() {
     if ! echo "$filename" | grep '\.tex$' &>/dev/null; then
         filename="$filename.tex"
     fi
-    inotifywait -meclose_write -- "$filename" | while read; do
-        tex2pdf "$filename" || echo -e '\e[37;41m              TeX COMPILATION FAILED!              \e[0m';
-    done
+
+    local have_notify_send=
+    if command -v notify-send &>/dev/null; then
+        have_notify_send=yes
+    fi
+
+    inotifywait -meclose_write -- "$filename" |
+        while read; do
+            tex2pdf "$filename" || \
+                (
+                    echo -e '\e[37;41m              TeX COMPILATION FAILED!              \e[0m'
+                    if [ "$have_notify_send" = yes ] && [ ! -z "$DISPLAY" ]; then
+                        notify-send --urgency=low --icon=dialog-error 'TeX Compilation Failed!' "Unable to compile $filename."
+                    fi
+                );
+        done
 }
 
 function tofu() {
