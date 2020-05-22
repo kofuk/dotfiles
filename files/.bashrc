@@ -105,6 +105,7 @@ alias cbpaste='xclip -selection clipboard -o'
 alias diff='diff -u --color=auto'
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
+alias platex='platex -halt-on-error'
 alias uplatex='uplatex -halt-on-error'
 # hack to use aliases on sudo.
 alias sudo='sudo '
@@ -132,6 +133,7 @@ function gengif() {
         rm -f "$palettepath"
 }
 
+# XXX No longer works (because of Wayland)
 function screenrecord() {
     if [ "$XDG_SESSION_TYPE" != "x11" ]; then
         echo 'Must run in Xorg session.'
@@ -170,7 +172,22 @@ function tex2pdf() {
         echo 'Please specify a texname' >&2
         return 1
     fi
-    uplatex "$1" && dvipdfmx "${1%.tex}.dvi"
+    local filename="$1"
+    if [ ! -f "$filename" ]; then
+        if [ -f "$filename.tex" ]; then
+            filename="$filename.tex"
+        else
+            echo "tex2pdf: $filename: No such file or directory"
+            exit 1
+        fi
+    fi
+    # if there is a `uplatex' option:
+    if head -n 1 "$filename" |
+            grep -E '^\\documentclass\[([[:alnum:]]+ ?, ?)*uplatex( ?, ?[[:alnum:]]+)*\]' &>/dev/null; then
+        uplatex "$1" && dvipdfmx "${1%.tex}.dvi"
+    else
+        platex "$1" && dvipdfmx "${1%.tex}.dvi"
+    fi
 }
 
 function texclean() {
