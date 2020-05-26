@@ -182,12 +182,21 @@ function tex2pdf() {
             exit 1
         fi
     fi
+
+    local logname="/tmp/${filename%.tex}.log"
+    touch "$logname"
+    ln -s "$logname" .
+
     # if there is a `uplatex' option:
     if head -n 1 "$filename" |
             grep -E '^\\documentclass\[([[:alnum:]]+ ?, ?)*uplatex( ?, ?[[:alnum:]]+)*\]' &>/dev/null; then
-        uplatex "$1" && dvipdfmx "${1%.tex}.dvi"
+        uplatex "$1" && dvipdfmx "${filename%.tex}.dvi"
     else
-        platex "$1" && dvipdfmx "${1%.tex}.dvi"
+        platex "$1" && dvipdfmx "${filename%.tex}.dvi"
+    fi
+
+    if [ -h "${filename%.tex}.log" ]; then
+        rm -f "${filename%.tex}.log"
     fi
 }
 
