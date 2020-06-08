@@ -134,6 +134,15 @@ function gengif() {
         rm -f "$palettepath"
 }
 
+function gitapplyw32() {
+    if [ "$#" -ne 1 ]; then
+        echo 'usage: gitapplyw32 FILE'
+        echo
+        echo 'Apply UTF-16, CRLF patch file to git repository.'
+    fi
+    uconv -f UTF-16 -t UTF-8 "$1" | tr -d '\r' | git apply -
+}
+
 # XXX No longer works (because of Wayland)
 function screenrecord() {
     if [ "$XDG_SESSION_TYPE" != "x11" ]; then
