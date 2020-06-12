@@ -95,7 +95,6 @@ fi
 
 # aliases
 alias rm='rm -i'
-alias emacs='emacsclient -c -a ""'
 alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
 alias make='time make'
