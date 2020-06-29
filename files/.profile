@@ -38,3 +38,7 @@ fi
 if command -v opam &>/dev/null; then
     eval $(opam env)
 fi
+
+if [ -d "$HOME/.cargo/bin" ]; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
