@@ -252,6 +252,41 @@ function tofu() {
     uconv -f "$enc" "$1"
 }
 
+function hijack() {
+    if [ "$#" -ne 1 ]; then
+        echo 'usage: hijack PID' >&2
+        return 1
+    fi
+    local tty="$(readlink /proc/self/fd/0)"
+
+    echo "Info: Connect to $tty"
+
+    local run_as_root=
+    if command -v sudo &>/dev/null && [ "_$(whoami)" != '_root' ]; then
+        run_as_root=sudo
+    fi
+
+    local pid="$1"
+
+    $run_as_root gdb -p "$pid" <<EOF
+
+compile code                                                        \
+unsigned char attrs[3][1024];                                       \
+for (int fd = 0; fd < 3; ++fd) {                                    \
+    tcgetattr(fd, (struct termios *)attrs[fd]);                     \
+}                                                                   \
+dup2(open("$tty", 0 /* O_RDONLY */), 0);                            \
+dup2(open("$tty", 1 /* O_WRONLY */), 1);                            \
+dup2(open("$tty", 1 /* O_WRONLY */), 2);                            \
+for (int fd = 0; fd < 3; ++fd) {                                    \
+    tcsetattr(fd, 0 /* TCSADRAIN */, (struct termios *)attrs[fd]);  \
+}
+EOF
+    # If this is TUI app, let it redraw.
+    kill -WINCH "$pid"
+    tail -f /dev/null --pid "$pid"
+}
+
 # Set secret environment variables, namely api keys and so on
 if [ -e "$HOME/.secret.env" ]; then
     . "$HOME/.secret.env"
