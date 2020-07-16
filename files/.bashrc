@@ -193,7 +193,9 @@ function tex2pdf() {
 
     local logname="/tmp/${filename%.tex}.log"
     touch "$logname"
-    ln -s "$logname" .
+    if ! realpath "$filename" | grep '^/tmp/' &>/dev/null; then
+        ln -s "$logname" .
+    fi
 
     # if there is a `uplatex' option:
     if head -n 1 "$filename" |
