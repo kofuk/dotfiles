@@ -289,6 +289,22 @@ EOF
     tail -f /dev/null --pid "$pid"
 }
 
+# same as dmake (CMake alias above) but build project in memory.
+function mdmake() {
+    local fs_type="$(df -P . | tail -n +2 | cut -d' ' -f1)"
+    if [ "x$fs_type" = 'xtmpfs' ]; then
+        local run_as_root=
+        if [ "x$(whoami)" != 'xroot' ]; then
+            run_as_root='sudo'
+        fi
+        $run_as_root mount -t tmpfs tmpfs . || \
+            { echo 'Fatal: failed to mount tmpfs.'; return 1; }
+        # move to tmpfs.
+        cd .
+    fi
+    dmake "$@"
+}
+
 # Set secret environment variables, namely api keys and so on
 if [ -e "$HOME/.secret.env" ]; then
     . "$HOME/.secret.env"
