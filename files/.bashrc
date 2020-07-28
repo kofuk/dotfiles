@@ -107,8 +107,6 @@ alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 alias platex='platex -halt-on-error'
 alias uplatex='uplatex -halt-on-error'
-# hack to use aliases on sudo.
-alias sudo='sudo '
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -241,6 +239,7 @@ function texwatch() {
         done
 }
 
+# convert text file to utf-8
 function tofu() {
     if [ "$#" -ne 1 ]; then
         echo 'usage: tofu FILE' >&2
@@ -270,6 +269,11 @@ function hijack() {
 
     local pid="$1"
 
+    # TODO: Is it useful if we can write back current terminal attributes
+    #       to the terminal disconnected?
+
+    # Do NOT delete the empty line in heredoc;
+    # This is a trick to skip stack trace in gdb (if it longer than terminal).
     $run_as_root gdb -p "$pid" <<EOF
 
 compile code                                                        \
@@ -286,6 +290,7 @@ for (int fd = 0; fd < 3; ++fd) {                                    \
 EOF
     # If this is TUI app, let it redraw.
     kill -WINCH "$pid"
+    # wait for the process to terminate
     tail -f /dev/null --pid "$pid"
 }
 
