@@ -25,29 +25,14 @@ esac
 
 unset host
 
-function __exit_code_prompt() {
-    local last_exit="$?"
-    local message
-    if [ "$last_exit" -eq 0 ]; then
-        echo -en '\e[38;5;14m'
-        message='success'
-    else
-        echo -en '\e[38;5;13m'
-        message="failure ($last_exit)"
-    fi
-    if [ "$last_exit" -gt 128 ]; then
-        local signum="$((last_exit-128))"
-        local signal="$(kill -l "$signum" 2>/dev/null)"
-        if [ -z "$signal" ]; then
-            signal='unknown signal'
-        else
-            signal="SIG$signal"
-        fi
-        message="failure ($last_exit/$signal)"
-    fi
-    echo -n "//=> $message"
-    echo -e '\e[0m'
-}
+__dirname_orig="$__dirname"
+__dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
+PROMPT_COMMAND="$(cat "$__dirname/exit_status_prompt.bash")"
+if [ -z "$__dirname_orig" ]; then
+    unset __dirname_orig __dirname
+else
+    __dirname="$__dirname_orig"
+    unset __dirname_orig
+fi
 
-PROMPT_COMMAND=__exit_code_prompt
 PROMPT_DIRTRIM=5
