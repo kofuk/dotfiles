@@ -1,7 +1,10 @@
 function __construct_prompt() {
     local color_prompt host cwd='\w' user='\u'
     # color escape sequences
-    local color_reset color_green color_blue
+    local color_reset color_green color_blue color_ssh_tag
+
+    # fresh start
+    PS1=
 
     case "$TERM" in
         xterm-color|*-256color) color_prompt=yes;;
@@ -11,11 +14,15 @@ function __construct_prompt() {
         color_reset='\e[0m'
         color_green='\e[1;32m'
         color_blue='\e[1;34m'
+        color_ssh_tag='\e[1;37;44m'
     fi
 
-    [ -z "$SSH_CLIENT" ] || host='@\h'
+    if [ ! -z "$SSH_CLIENT" ]; then
+        PS1="$color_ssh_tag SSH $color_reset"
+        host='@\h'
+    fi
 
-    PS1="$color_green$user$host$color_reset:$color_blue$cwd$color_reset\$ "
+    PS1="$PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\$ "
 
     # If this is an xterm set the title to user@host:dir
     case "$TERM" in
