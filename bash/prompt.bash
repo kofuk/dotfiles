@@ -1,38 +1,34 @@
-if [ -z "$SSH_CLIENT" ]; then
-    host=
-else
-    host='@\h'
-fi
+function __construct_prompt() {
+    local color_prompt host cwd='\w' user='\u'
+    # color escape sequences
+    local color_reset color_green color_blue
 
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[01;32m\]\u$host\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ "
-else
-    PS1="\u$host:\w\$ "
-fi
-unset color_prompt
+    case "$TERM" in
+        xterm-color|*-256color) color_prompt=yes;;
+    esac
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;\u$h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
-esac
+    if [[ "$color_prompt" = 'yes' ]]; then
+        color_reset='\e[0m'
+        color_green='\e[1;32m'
+        color_blue='\e[1;34m'
+    fi
 
-unset host
+    [ -z "$SSH_CLIENT" ] || host='@\h'
 
-__dirname_orig="$__dirname"
-__dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
-PROMPT_COMMAND="$(cat "$__dirname/exit_status_prompt.bash")"
-if [ -z "$__dirname_orig" ]; then
-    unset __dirname_orig __dirname
-else
-    __dirname="$__dirname_orig"
-    unset __dirname_orig
-fi
+    PS1="$color_green$user$host$color_reset:$color_blue$cwd$color_reset\$ "
+
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+        xterm*|rxvt*)
+            PS1="\[\e]0;\u$h: \w\a\]$PS1"
+            ;;
+        *)
+            ;;
+    esac
+
+    # show exit status of previous command.
+    local dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
+    PROMPT_COMMAND="$(cat "$dirname/exit_status_prompt.bash")"
+} && __construct_prompt; unset __construct_prompt
 
 PROMPT_DIRTRIM=5
