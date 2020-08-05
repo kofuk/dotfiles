@@ -10,20 +10,21 @@ case $- in
     *) return;;
 esac
 
-__dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
+function __load_files() {
+    local f
+    local load_files=(
+        'bash_options.bash'
+        'prompt.bash'
+        'aliases.bash'
+        'envvars.bash'
+        'utilities.bash'
+    )
+    local dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
 
-function __load() {
-    source "$__dirname/$1"
-}
-
-__load 'bash_options.bash'
-__load 'prompt.bash'
-__load 'aliases.bash'
-__load 'envvars.bash'
-__load 'utilities.bash'
-
-unset __dirname
-unset __load
+    for f in "${load_files[@]}"; do
+        source "$dirname/$f"
+    done
+} && __load_files; unset __load_files
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
