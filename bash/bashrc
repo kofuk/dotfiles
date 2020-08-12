@@ -10,6 +10,24 @@ case $- in
     *) return;;
 esac
 
+_DOTFILES_BASH_ROOT=
+if [ -z "$MSYSTEM" ]; then
+    _DOTFILES_BASH_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
+else
+    if [ ! -e "$HOME/.dotfiles_root" ]; then
+        echo 'Warning: Your system seems to be MSYS2, but ~/.dotfiles_root does not exists.'
+        echo '         Initialization will fail and I recommend you to reinstall dotfiles'
+        echo '         using Makefile.'
+
+        # Set it to harmless one.
+        # I want to avoid empty _DOTFILES_BASH_ROOT to lead generating rooted path
+        # (e.g. "$_DOTFILES_BASH_ROOT/foobar" => "/foobar").
+        _DOTFILES_BASH_ROOT='/tmp/INVALID'
+    else
+        _DOTFILES_BASH_ROOT="$(cat "$HOME/.dotfiles_root")/bash"
+    fi
+fi
+
 function __load_files() {
     local f
     local load_files=(
@@ -19,12 +37,13 @@ function __load_files() {
         'envvars.bash'
         'utilities.bash'
     )
-    local dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
 
     for f in "${load_files[@]}"; do
-        source "$dirname/$f"
+        source "$_DOTFILES_BASH_ROOT/$f"
     done
 } && __load_files; unset __load_files
+
+unset _DOTFILES_BASH_ROOT
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

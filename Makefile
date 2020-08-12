@@ -1,11 +1,26 @@
 SYMLINK := ln -sf
+CP := cp
 
 .PHONY: dummy
 dummy:
 	@ echo 'If you want to install dotfiles, run'
 	@ echo '	make install'
 
+dotfiles_root:
+	@ echo 'GEN	dotfiles_root'
+	@ echo $(CURDIR) >dotfiles_root
+
+.PHONY: install-w32
+install-w32: dotfiles_root
+	@ echo 'CP	.dotfiles_root'
+	@ $(CP) $< $(HOME)/.dotfiles_root
+
 .PHONY: install
+
+ifdef MSYSTEM
+install: install-w32
+endif
+
 install:
 	@ echo 'LN	.bashrc'
 	@ $(SYMLINK) $(CURDIR)/bash/bashrc $(HOME)/.bashrc

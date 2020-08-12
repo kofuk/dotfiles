@@ -34,8 +34,7 @@ function __construct_prompt() {
     esac
 
     # show exit status of previous command.
-    local dirname="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
-    PROMPT_COMMAND="$(cat "$dirname/exit_status_prompt.bash")"
+    PROMPT_COMMAND="$(cat "$_DOTFILES_BASH_ROOT/exit_status_prompt.bash")"
 } && __construct_prompt; unset __construct_prompt
 
 PROMPT_DIRTRIM=5
