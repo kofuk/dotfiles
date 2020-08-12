@@ -25,3 +25,5 @@ install:
 	@ $(SYMLINK) $(CURDIR)/misc/inputrc $(HOME)/.inputrc
 	@ echo 'LN	.screenrc'
 	@ $(SYMLINK) $(CURDIR)/misc/screenrc $(HOME)/.screenrc
+	@ echo 'LN	.zshrc'
+	@ $(SYMLINK) $(CURDIR)/zsh/zshrc.zsh $(HOME)/.zshrc
