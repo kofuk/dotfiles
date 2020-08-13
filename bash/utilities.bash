@@ -1,11 +1,22 @@
 
 # Utilities
 function gengif() {
+    if [ "$#" -lt 2 ]; then
+        echo 'usage: gengif SOURCE [DST]'
+        return 1
+    fi
+
+    local out_name
+    if [ "$#" -ge 2 ]; then
+        out_name="$2"
+    else
+        out_name='out.gif'
+    fi
     local user_id="$(id -ur)"
     local palettepath="/tmp/palette-$user_id-$RANDOM.png"
-    ffmpeg -i "$1" -vf palettegen "$palettepath" & \
-        ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse out.gif
-        rm -f "$palettepath"
+    ffmpeg -i "$1" -vf palettegen "$palettepath" && \
+        ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse "$out_name"
+    rm -f "$palettepath"
 }
 
 function gitapplyw32() {
