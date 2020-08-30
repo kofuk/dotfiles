@@ -19,6 +19,7 @@ alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 alias platex='platex -halt-on-error'
 alias uplatex='uplatex -halt-on-error'
+alias rrn='rr record -n'
 
 # Defines wrapper function for 'time make' instead of aliasing it.
 # Aliasing it causes an error if called with the following form:

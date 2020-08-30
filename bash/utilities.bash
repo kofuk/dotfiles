@@ -197,3 +197,7 @@ function mdmake() {
     fi
     dmake "$@"
 }
+
+function fujisan() {
+    export LSAN_OPTIONS='report_objects=1'
+}
