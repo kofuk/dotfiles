@@ -17,10 +17,11 @@ function __exit_status_prompt() {
         # `kill -l SIGNUM` prints signal name, like INT or TERM.
         signal="$(kill -l "$((_prompt_last_exit-128))" 2>/dev/null)"
 
-        message="failure ($_prompt_last_exit/${signal:-unknown signal})"
+        message="failure ($_prompt_last_exit/SIG${signal:-\e[4D\e[J})"
+        #                                                 ^~~~~~~~~ ugly hack...
     fi
 
-    echo -n "//=> $message"
+    echo -ne "//=> $message"
     echo -e '\e[0m'
 } && __exit_status_prompt; unset __exit_status_prompt
 
