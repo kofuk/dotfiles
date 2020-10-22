@@ -201,3 +201,25 @@ function mdmake() {
 function fujisan() {
     export LSAN_OPTIONS='report_objects=1'
 }
+
+function htmlfy() {
+    if [ $# -lt 1 ]; then
+        echo 'fatal: source file expected.'
+        exit 1;
+    fi
+
+    cat <<EOF
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>$1</title>
+  <link rel="stylesheet" href="/css/dracula.css">
+  <link rel="stylesheet" href="/css/code_base.css">
+  <meta name="viewport" contents="width=device-width">
+</head>
+<body>
+EOF
+    pygmentize -f html "$1"
+    echo '</body>'
+}
