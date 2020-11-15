@@ -20,6 +20,9 @@ alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(ye
 alias platex='platex -halt-on-error'
 alias uplatex='uplatex -halt-on-error'
 alias rrn='rr record -n'
+alias cr='cargo run --'
+# Disable persisted history on Node.js
+alias node='env NODE_REPL_HISTORY= node'
 
 # Defines wrapper function for 'time make' instead of aliasing it.
 # Aliasing it causes an error if called with the following form:

@@ -223,3 +223,7 @@ EOF
     pygmentize -f html "$1"
     echo '</body>'
 }
+
+function satyclean() {
+    rm -f *.satysfi-aux
+}
