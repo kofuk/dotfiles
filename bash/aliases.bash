@@ -12,8 +12,13 @@ alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
 alias dmake='cmake -DCMAKE_INSTALL_PREFIX="$HOME" -DCMAKE_BUILD_TYPE=Debug'
 alias ctest='ctest --verbose'
-alias ccopy='xclip -selection clipboard'
-alias cpaste='xclip -selection clipboard -o'
+if command -v xsel &>/dev/null; then
+    alias ccopy='xsel -ib'
+    alias cpaste='xsel -ob'
+elif command -v xclip &>/dev/null; then
+    alias ccopy='xclip -selection clipboard'
+    alias cpaste='xclip -selection clipboard -o'
+fi
 alias diff='diff -u --color=auto'
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
