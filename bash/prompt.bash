@@ -18,11 +18,14 @@ function __construct_prompt() {
     fi
 
     if [ ! -z "$SSH_CLIENT" ]; then
-        PS1="$color_ssh_tag SSH $color_reset"
+        PS1="$color_ssh_tag SSH $color_reset "
         host='@\h'
     fi
 
-    PS1="\[[]\] $PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\\\$ "
+    # Placeholder for exit status
+    PS1="$PS1\[[]\] "
+
+    PS1="$PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\\\$ "
 
     # If this is an xterm set the title to user@host:dir
     case "$TERM" in
