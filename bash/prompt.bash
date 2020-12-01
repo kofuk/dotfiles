@@ -23,7 +23,7 @@ function __construct_prompt() {
     fi
 
     # Placeholder for exit status
-    PS1="$PS1\[[]\] "
+    PS1="$PS1\[\[\]\] "
 
     PS1="$PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\\\$ "
 
