@@ -11,3 +11,6 @@ syntax enable
 
 set statusline=\ %f\ %y%r%=%l,%c%V\ %m
 set laststatus=2
+
+"Go
+au FileType go setlocal noet
