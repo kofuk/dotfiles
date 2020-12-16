@@ -1,7 +1,7 @@
 
 # Utilities
 function gengif() {
-    if [ "$#" -lt 2 ]; then
+    if [ "$#" -lt 1 ]; then
         echo 'usage: gengif SOURCE [DST]'
         return 1
     fi
