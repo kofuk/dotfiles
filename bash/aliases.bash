@@ -10,7 +10,8 @@ fi
 alias rm='rm -i'
 alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
-alias dmake='cmake -DCMAKE_INSTALL_PREFIX="$HOME" -DCMAKE_BUILD_TYPE=Debug'
+alias dmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug'
+alias ldmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,portability-*,readability-*"'
 alias ctest='ctest --verbose'
 if command -v xsel &>/dev/null; then
     alias ccopy='xsel -ib'
