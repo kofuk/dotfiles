@@ -73,7 +73,7 @@ function tex2pdf() {
             filename="$filename.tex"
         else
             echo "tex2pdf: $filename: No such file or directory"
-            exit 1
+            return 1
         fi
     fi
 
@@ -205,7 +205,7 @@ function fujisan() {
 function htmlfy() {
     if [ $# -lt 1 ]; then
         echo 'fatal: source file expected.'
-        exit 1;
+        return 1;
     fi
 
     cat <<EOF
