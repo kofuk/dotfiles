@@ -44,3 +44,12 @@ function make() {
     # omitting `command' causes infinite recursive call (though it is no wonder.)
     time command make "$@"
 }
+
+# Try to reattach existing screen unless any arguments supplied.
+function screen() {
+    if [ $# -eq 0 ]; then
+        command screen -R
+    else
+        command screen "$@"
+    fi
+}

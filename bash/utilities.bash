@@ -1,5 +1,3 @@
-
-# Utilities
 function gengif() {
     if [ "$#" -lt 1 ]; then
         echo 'usage: gengif SOURCE [DST]'
@@ -105,10 +103,7 @@ function texwatch() {
         echo 'texname required.' >&2
         return 1
     fi
-    local filename="$1"
-    if ! echo "$filename" | grep '\.tex$' &>/dev/null; then
-        filename="$filename.tex"
-    fi
+    local filename="${1%.tex}.tex"
 
     local have_notify_send=
     if command -v notify-send &>/dev/null; then
