@@ -12,8 +12,7 @@ function __exit_status_prompt() {
         message="\\e[38;5;9;1m$_prompt_last_exit\\e[0m"
     fi
 
-    # Rewriting PS1 because echo-ing in the PROMPT_COMMAND may break readline, dunno.
-    PS1="${PS1/\\\[\\\[*\\\]\\\]/\\[\\[$message\\]\\]}"
+    echo -en "$message "
 } && __exit_status_prompt; unset __exit_status_prompt
 
 unset _prompt_last_exit

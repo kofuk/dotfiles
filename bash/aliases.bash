@@ -26,6 +26,11 @@ alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(ye
 alias platex='platex -halt-on-error'
 alias uplatex='uplatex -halt-on-error'
 alias rrn='rr record -n'
+alias rrr='rr replay'
+alias rrrr='rr replay'
+alias rrrrr='rr replay'
+alias rrrrrr='rr replay'
+alias rrrrrrr='rr replay'
 alias cr='cargo run --'
 # Disable persisted history on Node.js
 alias node='env NODE_REPL_HISTORY= node'

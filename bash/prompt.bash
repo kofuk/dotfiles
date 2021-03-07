@@ -22,10 +22,7 @@ function __construct_prompt() {
         host='@\h'
     fi
 
-    # Placeholder for exit status
-    PS1="$PS1\[\[\]\] "
-
-    PS1="$PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\\\$ "
+    PS1="$PS1$color_green$user$host$color_reset:$color_blue$cwd$color_reset\n\\\$ "
 
     # If this is an xterm set the title to user@host:dir
     case "$TERM" in
