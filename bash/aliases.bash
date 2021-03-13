@@ -13,12 +13,12 @@ alias ssh='ssh -o VisualHostKey=yes'
 alias dmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug'
 alias ldmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,portability-*,readability-*"'
 alias ctest='ctest --verbose'
-if command -v xsel &>/dev/null; then
-    alias ccopy='xsel -ib'
-    alias cpaste='xsel -ob'
-elif command -v xclip &>/dev/null; then
+if command -v xclip &>/dev/null; then
     alias ccopy='xclip -selection clipboard'
     alias cpaste='xclip -selection clipboard -o'
+else
+    alias ccopy='xsel -ib'
+    alias cpaste='xsel -ob'
 fi
 alias diff='diff -u --color=auto'
 alias open='xdg-open'
