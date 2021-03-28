@@ -19,3 +19,6 @@ shopt -s globstar
 
 # Edit and verify history before executing it.
 shopt -s histverify
+
+# Interpret unknown commands as cd
+shopt -s autocd
