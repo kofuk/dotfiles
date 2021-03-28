@@ -17,6 +17,9 @@ function __construct_prompt() {
     if [ ! -z "$SSH_CLIENT" ]; then
         _PS1="$color_ssh_tag SSH $color_reset "
         host='@\h'
+    else
+        # Fresh start
+        _PS1=
     fi
 
     # Placeholder for exit status
