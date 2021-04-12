@@ -8,6 +8,8 @@ fi
 
 # aliases
 alias rm='rm -i'
+alias cp='cp -i'
+alias mv='rm -i'
 alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
 alias dmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug'
