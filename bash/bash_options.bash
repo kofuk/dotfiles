@@ -22,3 +22,6 @@ shopt -s histverify
 
 # Interpret unknown commands as cd
 shopt -s autocd
+
+# Return empty if no file matched to glob.
+shopt -s nullglob
