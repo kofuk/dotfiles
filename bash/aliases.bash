@@ -33,7 +33,7 @@ alias rrrr='rr replay'
 alias rrrrr='rr replay'
 alias rrrrrr='rr replay'
 alias rrrrrrr='rr replay'
-alias cr='cargo run --'
+alias cr='cargo run -j$(nproc) --'
 # Disable persisted history on Node.js
 alias node='env NODE_REPL_HISTORY= node'
 

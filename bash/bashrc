@@ -38,6 +38,14 @@ function __load_files() {
         'utilities.bash'
     )
 
+    if [ ! -z "${MSYSTEM}" ]; then
+        # load MSYS-specific configuration file
+        load_files=(
+            'msys2.bash'
+            "${load_files[@]}"
+        )
+    fi
+
     for f in "${load_files[@]}"; do
         source "$_DOTFILES_BASH_ROOT/$f"
     done
