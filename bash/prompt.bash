@@ -18,8 +18,21 @@ function __construct_prompt() {
         _PS1="$color_ssh_tag SSH $color_reset "
         host='@\h'
     else
-        # Fresh start
-        _PS1=
+        local tag_name=
+        if command -v systemd-detect-virt &>/dev/null; then
+            case "$(systemd-detect-virt)" in
+                none) ;;
+                systemd-nspawn)
+                    tag_name='NSPAWN'
+                    ;;
+            esac
+        fi
+
+        if [ -z "${tag_name}" ]; then
+            _PS1=
+        else
+            _PS1="$color_ssh_tag ${tag_name} $color_reset "
+        fi
     fi
 
     # Placeholder for exit status
