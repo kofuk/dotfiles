@@ -343,3 +343,12 @@ EOF
             fi
         done
 }
+
+function fullscreen() {
+    if [ $# -lt 1 ]; then
+        echo 'Window title required' >&2
+        return 1
+    fi
+
+    wmctrl -r "$1" -b toggle,fullscreen
+}

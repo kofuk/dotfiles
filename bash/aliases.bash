@@ -36,6 +36,7 @@ alias rrrrrrr='rr replay'
 alias cr='cargo run -j$(nproc) --'
 # Disable persisted history on Node.js
 alias node='env NODE_REPL_HISTORY= node'
+alias 意識高いやつ="sed -i 'y/、。/，．/' --"
 
 # Defines wrapper function for 'time make' instead of aliasing it.
 # Aliasing it causes an error if called with the following form:
