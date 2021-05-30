@@ -37,6 +37,7 @@ alias cr='cargo run -j$(nproc) --'
 # Disable persisted history on Node.js
 alias node='env NODE_REPL_HISTORY= node'
 alias 意識高いやつ="sed -i 'y/、。/，．/' --"
+alias unzip-strm='/usr/lib/jvm/java-11-openjdk/bin/jar x'
 
 # Defines wrapper function for 'time make' instead of aliasing it.
 # Aliasing it causes an error if called with the following form:
