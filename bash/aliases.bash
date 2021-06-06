@@ -38,7 +38,7 @@ alias cr='cargo run -j$(nproc) --'
 alias node='env NODE_REPL_HISTORY= node'
 alias 意識高いやつ="sed -i 'y/、。/，．/' --"
 alias unzipipe='/usr/lib/jvm/java-11-openjdk/bin/jar x'
-alias quoted="sed 's/^/> /g' -- "
+alias quoted="awk '/^>/ {printf \">%s\n\", \$0} !/^>/ {printf \"> %s\n\", \$0}'"
 
 # Defines wrapper function for 'time make' instead of aliasing it.
 # Aliasing it causes an error if called with the following form:
