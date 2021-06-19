@@ -81,9 +81,12 @@ function tex2pdf() {
         ln -s "$logname" .
     fi
 
-    # if there is a `uplatex' option:
-    if head -n 1 "$filename" |
+    if head -n 1 "$filename" | grep -E '^\\documentclass(\[[[:alnum:] ,]+\])?{lt[[:alpha:]]+}$' &>/dev/null; then
+        # documentclass starts with lt (*L*ua*T*eX)
+        lualatex "$1"
+    elif head -n 1 "$filename" |
             grep -E '^\\documentclass\[([[:alnum:]]+ ?, ?)*uplatex( ?, ?[[:alnum:]]+)*\]' &>/dev/null; then
+        # There is a `uplatex' option:
         uplatex "$1" && dvipdfmx "${filename%.tex}.dvi"
     else
         platex "$1" && dvipdfmx "${filename%.tex}.dvi"
