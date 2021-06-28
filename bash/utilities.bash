@@ -98,7 +98,7 @@ function tex2pdf() {
 }
 
 function texclean() {
-    rm -f *.aux *.dvi *.log *.toc
+    rm *.aux *.dvi *.log *.toc *.out
 }
 
 function texwatch() {
