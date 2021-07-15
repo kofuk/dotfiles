@@ -14,6 +14,14 @@ function __exit_status_prompt() {
 
     # Rewriting PS1 because echo-ing in the PROMPT_COMMAND breaks readline.
     PS1="${_PS1/@@/$message }"
+
+    # https:/zenn.dev/mattn/articles/b4d56356f42453
+    # TODO: Don't evaluate if no command executed previously.
+    local cursor_pos
+    echo -en '\033[6n' && read -sdR cursor_pos
+    if [ "$(cut -d ';' -f 2 <<<$cursor_pos)" -gt 1 ]; then
+        echo -e '\033[7m%\033[0m'
+    fi
 } && __exit_status_prompt; unset __exit_status_prompt
 
 unset _prompt_last_exit
