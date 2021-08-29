@@ -10,11 +10,8 @@ function gengif() {
     else
         out_name='out.gif'
     fi
-    local user_id="$(id -ur)"
-    local palettepath="/tmp/palette-$user_id-$RANDOM.png"
-    ffmpeg -i "$1" -vf palettegen "$palettepath" && \
-        ffmpeg -i "$1" -i "$palettepath" -filter_complex paletteuse "$out_name"
-    rm -f "$palettepath"
+
+    ffmpeg -i "$1" -filter_complex "[0:v] split [a][b];[a] palettegen=stats_mode=diff:reserve_transparent=0 [p];[b][p] paletteuse=dither=none:diff_mode=rectangle" "${out_name}"
 }
 
 function gitapplyw32() {
