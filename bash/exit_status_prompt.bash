@@ -22,6 +22,8 @@ function __exit_status_prompt() {
         echo -en '\033[6n' && read -sdR cursor_pos
         if [ "$(cut -d ';' -f 2 <<<$cursor_pos)" -gt 1 ]; then
             echo -e '\033[7m%\033[0m'
+        else
+            echo -e '\033[A'
         fi
     fi
 } && __exit_status_prompt; unset __exit_status_prompt
