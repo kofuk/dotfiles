@@ -354,11 +354,10 @@ function fullscreen() {
 }
 
 function emacs() {
-    if [ ! -z "${INSIDE_EMACS}" ] && [ ! -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
-        if [ "$#" -eq 1 ]; then
-            dbus-send --session --type=method_call --dest="org.kofuk.EmacsOpener${PPID}" /org/kofuk/EmacsOpener "org.kofuk.EmacsOpener${PPID}.OpenBuffer" "string:$(realpath -s "$1")"
-        fi
-        return
+    if [ ! -z "${INSIDE_EMACS}" ] && [ "$#" -eq 1 ]; then
+        dbus-send --session --type=method_call --dest="org.kofuk.EmacsOpener${PPID}" \
+                  /org/kofuk/EmacsOpener "org.kofuk.EmacsOpener${PPID}.OpenBuffer" "string:$(realpath -s "$1")" \
+            && return
     fi
     command emacs "$@"
 }
