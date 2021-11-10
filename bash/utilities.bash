@@ -356,7 +356,7 @@ function fullscreen() {
 function emacs() {
     if [ ! -z "${INSIDE_EMACS}" ] && [ "$#" -eq 1 ]; then
         dbus-send --session --print-reply --type=method_call --dest="org.kofuk.EmacsOpener${PPID}" \
-                  /org/kofuk/EmacsOpener "org.kofuk.EmacsOpener${PPID}.OpenBuffer" \
+                  /org/kofuk/EmacsOpener "org.kofuk.EmacsOpener.OpenBuffer" \
                   "string:$(realpath -s "$1")" &>/dev/null \
             && return
     fi
