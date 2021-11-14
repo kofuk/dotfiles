@@ -1,11 +1,11 @@
 function gengif() {
-    if [ "$#" -lt 1 ]; then
+    if [[ $# -lt 1 ]]; then
         echo 'usage: gengif SOURCE [DST]'
         return 1
     fi
 
     local out_name
-    if [ "$#" -ge 2 ]; then
+    if [[ $# -ge 2 ]]; then
         out_name="$2"
     else
         out_name='out.gif'
@@ -15,7 +15,7 @@ function gengif() {
 }
 
 function gitapplyw32() {
-    if [ "$#" -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo 'usage: gitapplyw32 FILE'
         echo
         echo 'Apply UTF-16, CRLF patch file to git repository.'
@@ -36,10 +36,10 @@ function screenrecord() {
         return 1
     fi
 
-    if [ $# -eq 0 ]; then
+    if [[ $# -eq 0 ]]; then
         echo 'screenrecord: fatal: Must specify output filename.'
         return 1;
-    elif [ $# -ge 1 ]; then
+    elif [[ $# -ge 1 ]]; then
         if [ "$1" = '--help' ]; then
             echo 'Usage: screenrecord [--with-audio] OUTNAME'
             return 0
@@ -58,7 +58,7 @@ function screenrecord() {
 }
 
 function tex2pdf() {
-    if [ ! $# -eq 1 ]; then
+    if [[ ! $# -eq 1 ]]; then
         echo 'Please specify a texname' >&2
         return 1
     fi
@@ -99,7 +99,7 @@ function texclean() {
 }
 
 function texwatch() {
-    if [ "$#" -lt 1 ]; then
+    if [[ $# -lt 1 ]]; then
         echo 'texname required.' >&2
         return 1
     fi
@@ -124,7 +124,7 @@ function texwatch() {
 
 # convert text file to utf-8
 function tofu() {
-    if [ "$#" -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo 'usage: tofu FILE' >&2
         return 1
     fi
@@ -345,7 +345,7 @@ EOF
 }
 
 function fullscreen() {
-    if [ $# -lt 1 ]; then
+    if [[ $# -lt 1 ]]; then
         echo 'Window title required' >&2
         return 1
     fi
@@ -354,11 +354,19 @@ function fullscreen() {
 }
 
 function emacs() {
-    if [ ! -z "${INSIDE_EMACS}" ] && [ "$#" -eq 1 ]; then
+    if [ ! -z "${INSIDE_EMACS}" ] && [[ $# -eq 1 ]]; then
         dbus-send --session --print-reply --type=method_call --dest="org.kofuk.EmacsOpener${PPID}" \
                   /org/kofuk/EmacsOpener "org.kofuk.EmacsOpener.OpenBuffer" \
                   "string:$(realpath -s "$1")" &>/dev/null \
             && return
     fi
     command emacs "$@"
+}
+
+function waveshapeimg() {
+    if [[ $# -lt 1 ]]; then
+        echo 'Input file required.\n' >&2
+        return 1
+    fi
+    ffmpeg -i "$1" -filter_complex "showwavespic=s=1920x200:split_channels=1:colors=black|black:scale=0:draw=0" "${2:-waveshape.png}"
 }
