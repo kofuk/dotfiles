@@ -32,8 +32,6 @@ install:
 	@ $(SYMLINK) $(CURDIR)/vim/vimrc $(HOME)/.vimrc
 	@ echo 'LN	.clang-format'
 	@ $(SYMLINK) $(CURDIR)/clang-tools/clang-format $(HOME)/.clang-format
-	@ echo 'LN	compile_flags.txt'
-	@ $(SYMLINK) $(CURDIR)/clang-tools/compile_flags.txt $(HOME)/compile_flags.txt
 	@ echo 'LN	.aspell.conf'
 	@ $(SYMLINK) $(CURDIR)/misc/aspell.conf $(HOME)/.aspell.conf
 	@ echo 'LN	.inputrc'
