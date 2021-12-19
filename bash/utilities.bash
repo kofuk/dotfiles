@@ -370,3 +370,20 @@ function waveshapeimg() {
     fi
     ffmpeg -i "$1" -filter_complex "showwavespic=s=1920x200:split_channels=1:colors=black|black:scale=0:draw=0" "${2:-waveshape.png}"
 }
+
+function memlimit() {
+    local uid="$(id -u)"
+    local cgbasepath="/sys/fs/cgroup/user.slice/user-${uid}.slice/user@${uid}.service/memlimit"
+    if [ ! -d "${cgbasepath}" ]; then
+        mkdir "${cgbasepath}"
+        echo '4500M' >"${cgbasepath}/memory.max"
+    fi
+
+    local cgpath="${cgbasepath}/proc-$RANDOM"
+    mkdir "${cgpath}"
+    (
+        echo "${BASHPID}" >"${cgpath}/cgroup.procs"
+        exec "$@"
+    )
+    rmdir "${cgpath}"
+}
