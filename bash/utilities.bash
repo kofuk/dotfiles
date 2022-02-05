@@ -80,7 +80,7 @@ function tex2pdf() {
 
     if head -n 1 "$filename" | grep -E '^\\documentclass(\[[[:alnum:] ,]+\])?{lt[[:alpha:]]+}$' &>/dev/null; then
         # documentclass starts with lt (*L*ua*T*eX)
-        lualatex "$1"
+        openout_any=r lualatex -shell-escape "$1"
     elif head -n 1 "$filename" |
             grep -E '^\\documentclass\[([[:alnum:]]+ ?, ?)*uplatex( ?, ?[[:alnum:]]+)*\]' &>/dev/null; then
         # There is a `uplatex' option:
@@ -112,13 +112,12 @@ function texwatch() {
 
     inotifywait -meclose_write -- "$filename" |
         while read; do
-            tex2pdf "$filename" || \
-                (
-                    echo -e '\e[37;41m              TeX COMPILATION FAILED!              \e[0m'
-                    if [ "$have_notify_send" = yes ] && [ ! -z "$DISPLAY" ]; then
-                        notify-send --urgency=low --icon=dialog-error 'TeX Compilation Failed!' "Unable to compile $filename."
-                    fi
-                );
+            if ! tex2pdf "$filename"; then
+                echo -e '\e[37;41m              TeX COMPILATION FAILED!              \e[0m'
+                if [ "$have_notify_send" = yes ] && [ ! -z "$DISPLAY" ]; then
+                    notify-send --urgency=low --icon=dialog-error 'TeX Compilation Failed!' "Unable to compile $filename."
+                fi
+            fi
         done
 }
 
