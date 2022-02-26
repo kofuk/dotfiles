@@ -1,3 +1,6 @@
+call plug#begin()
+call plug#end()
+
 set number
 set cursorline
 set noswapfile
@@ -6,6 +9,7 @@ set noundofile
 set expandtab
 set tabstop=4
 set shiftwidth=4
+language messages C
 
 syntax enable
 
