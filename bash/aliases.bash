@@ -25,7 +25,11 @@ else
     alias ccopy='xclip -selection clipboard'
     alias cpaste='xclip -selection clipboard -o'
 fi
-alias diff='diff -u --color=auto'
+if diff --color=auto /dev/null /dev/null &>/dev/null; then
+    alias diff='diff -u --color=auto'
+else
+    alias diff='diff -u'
+fi
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
 alias platex='platex -halt-on-error'
