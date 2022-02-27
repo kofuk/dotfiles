@@ -13,7 +13,6 @@ alias mv='mv -i'
 alias em='emacs'
 alias ssh='ssh -o VisualHostKey=yes'
 alias dmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug'
-alias ldmake='cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME" -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,portability-*,readability-*"'
 alias ctest='ctest --verbose'
 if command -v xsel &>/dev/null; then
     alias ccopy='xsel -ib'
@@ -28,7 +27,13 @@ fi
 if diff --color=auto /dev/null /dev/null &>/dev/null; then
     alias diff='diff -u --color=auto'
 else
-    alias diff='diff -u'
+    function diff() {
+        if [ -t 1 ]; then
+            command diff -u "$@" | sed -E 's/^(---|\+\+\+)/'$'\033''[1m&/g;s/^@@/'$'\033''[36m&/g;s/^-/'$'\033''[31m&/g;s/^\+/'$'\033''[32m&/g;s/$/'$'\033''[0m/g'
+        else
+            command diff -u "$@"
+        fi
+    }
 fi
 alias open='xdg-open'
 alias gitgraph='git log --graph --decorate=full --all --date=iso --pretty="%C(yellow)%h%C(reset) %s %C(cyan)by %an%C(reset) %C(auto)%d%C(reset)%n%x09%C(blue)[%ad]%C(reset)"'
