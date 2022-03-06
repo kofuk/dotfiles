@@ -4,7 +4,13 @@ function __exit_status_prompt() {
     local message signal
 
     if [ "$_prompt_last_exit" -eq 0 ]; then
-        message='\[\033[38;5;12;1m\]✓\[\033[0m\]'
+        local sign
+        if [ "x${XDG_SESSION_TYPE}" = 'xtty' ]; then
+            sign='OK'
+        else
+            sign='✓'
+        fi
+        message='\[\033[38;5;12;1m\]'"${sign}"'\[\033[0m\]'
     elif [ "$_prompt_last_exit" -gt 128 ] && \
              kill -l "$(($_prompt_last_exit-128))" &>/dev/null; then
         message='\[\033[38;5;9;1m\]$'"(kill -l "$(($_prompt_last_exit-128))")"'\[\033[0m\]'
