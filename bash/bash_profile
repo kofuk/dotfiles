@@ -31,3 +31,8 @@ fi
 if [ -d "$HOME/.cargo/bin" ]; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
+
+# For lab
+if [ -d /opt/bin ]; then
+    PATH="/opt/bin:$PATH"
+fi

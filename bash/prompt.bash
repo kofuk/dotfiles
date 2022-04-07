@@ -47,6 +47,9 @@ function __construct_prompt() {
             ;;
     esac
 
+    # dirty hack: don't emit empty line.
+    _PROMPT_FIRST_EXEC=1
+
     # PROMPT_COMMAND sets PS1
 
     # show exit status of previous command.
