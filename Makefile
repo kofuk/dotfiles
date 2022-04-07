@@ -40,6 +40,6 @@ install:
 	@ $(SYMLINK) $(CURDIR)/misc/screenrc $(HOME)/.screenrc
 	@ echo 'LN	.zshrc'
 	@ $(SYMLINK) $(CURDIR)/zsh/zshrc.zsh $(HOME)/.zshrc
-	@ echo 'DL  vim-plug'
+	@ echo 'DL	vim-plug'
 	curl -Lo $(HOME)/.vim/autoload/plug.vim --create-dirs \
 	    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

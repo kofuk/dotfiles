@@ -11,7 +11,7 @@ function __exit_status_prompt() {
             ;;
     esac
 
-    if [ "$_prompt_last_exit" -eq 0 ]; then
+    if [ "${_prompt_last_exit}" -eq 0 ]; then
         local sign
         if [ "x${XDG_SESSION_TYPE}" = 'xtty' ]; then
             sign='OK'
@@ -21,7 +21,7 @@ function __exit_status_prompt() {
         message="${color_ok}${sign}${color_reset}"
     elif [ "$_prompt_last_exit" -gt 128 ] && \
              kill -l "$(($_prompt_last_exit-128))" &>/dev/null; then
-        message="${color_err}$(kill -l "$(($_prompt_last_exit-128))")${color_reset}"
+        message="${color_err}$(kill -l "$((_prompt_last_exit-128))")${color_reset}"
     else
         message="${color_err}${_prompt_last_exit}${color_reset}"
     fi
@@ -47,5 +47,4 @@ function __exit_status_prompt() {
         fi
     fi
 } && __exit_status_prompt; unset __exit_status_prompt
-
 unset _prompt_last_exit
