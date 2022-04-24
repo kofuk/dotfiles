@@ -1,24 +1,32 @@
-call plug#begin()
-call plug#end()
+" Plug-ins
+cal plug#begin()
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'bluz71/vim-moonfly-colors'
+cal plug#end()
 
-set number
-set relativenumber
-set cursorline
-set noswapfile
-set nobackup
-set noundofile
-set expandtab
-set tabstop=4
-set shiftwidth=4
-language messages C
+se nu
+se cul
+se noswf
+se nobk
+se noudf
+se tgc
+se et
+se ts=4
+se sw=4
+se scl=yes
+lan messages C
 
 syntax enable
+colo moonfly
 
-set statusline=\ %f\ %y%r%=%l,%c%V\ %m
-set laststatus=2
+se stl=\ %f\ %y%r%=%l,%c%V\ %m
+se ls=2
 
 " Go
-au FileType go setlocal noet
+au FileType go setl noet
 
 " Makefile
-au FileType make setlocal noet
+au FileType make setl noet
