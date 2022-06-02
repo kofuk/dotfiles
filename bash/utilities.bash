@@ -386,3 +386,12 @@ function memlimit() {
     )
     rmdir "${cgpath}"
 }
+
+function webm2mp4() {
+    infile="$1"
+    local size="$(ffprobe -select_streams v -show_entries stream=width,height -of default=noprint_wrappers=1 "${infile}" 2>/dev/null)"
+    local w="$(grep width <<<"${size}" | cut -d= -f2)"
+    local h="$(grep height <<<"${size}" | cut -d= -f2)"
+    # we may not be able to upload the video to Twitter without setting `framerate=30'.
+    ffmpeg -i "${infile}" -acodec copy -vf crop="$((w/2*2)):$((h/2*2))+0+0",framerate=30 "${infile%%\.webm}.mp4"
+}
