@@ -76,3 +76,11 @@ function screen() {
         command screen "$@"
     fi
 }
+
+function cd() {
+    if [ $# -eq 1 ] && [[ "$1" =~ ^: ]] && git rev-parse --is-inside-work-tree &>/dev/null; then
+        [[ "$1" =~ ^:/ ]] && builtin cd "$(git rev-parse --show-toplevel)/${1##:/}" || builtin cd "${1##:}"
+        return
+    fi
+    builtin cd "$@"
+}
