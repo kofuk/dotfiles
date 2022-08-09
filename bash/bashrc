@@ -10,6 +10,11 @@ case $- in
     *) return;;
 esac
 
+# Include local environment variables.
+if [ -e "${HOME}/.env" ]; then
+    . "${HOME}/.env"
+fi
+
 _DOTFILES_BASH_ROOT=
 if [ -z "$MSYSTEM" ]; then
     _DOTFILES_BASH_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE:-$0}")")"; pwd)"
