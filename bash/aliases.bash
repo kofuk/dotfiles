@@ -71,7 +71,7 @@ function make() {
 # Try to reattach existing screen unless any arguments supplied.
 function screen() {
     if [ $# -eq 0 ]; then
-        command screen -R
+        command screen -Rq
     else
         command screen "$@"
     fi

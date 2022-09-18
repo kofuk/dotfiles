@@ -8,5 +8,7 @@ defscrollback 10000
 altscreen on
 defbce on
 term xterm-256color
-hardstatus alwaysfirstline "%{= cd} %-w%{= wk} %n %t* %{-}%+w"
+hardstatus off
+hardstatus alwayslastline
+hardstatus string "%{= Bd} %-w%{= wk} %t %{-}%+w"
 shell $SHELL
