@@ -14,7 +14,7 @@ help:
 	@ echo '	clang-format		.clang-format'
 	@ echo '	aspell-conf		.aspell.conf'
 	@ echo '	inputrc			.inputrc'
-	@ echo '	screenrc			.screenrc'
+	@ echo '	tmux-conf			.tmux.conf'
 	@ echo '	zshrc				.zshrc'
 	@ echo '	install_minimal	Installs only Bash-related files'
 
@@ -65,9 +65,10 @@ inputrc:
 	@ echo 'LN	.inputrc'
 	@ $(SYMLINK) $(CURDIR)/misc/inputrc $(HOME)/.inputrc
 
-.PHONY: screenrc
-	@ echo 'LN	.screenrc'
-	@ $(SYMLINK) $(CURDIR)/misc/screenrc $(HOME)/.screenrc
+.PHONY: tmux-conf
+tmux-conf:
+	@ echo 'LN	.tmux.conf'
+	@ $(SYMLINK) $(CURDIR)/misc/tmux.conf $(HOME)/.tmux.conf
 
 .PHONY: zshrc
 	@ echo 'LN	.zshrc'
@@ -81,6 +82,6 @@ install: install-w32
 install_minimal: install-w32
 endif
 
-install: bashrc bash_profile bash_logout vimrc clang-format aspell-conf inputrc screenrc zshrc
+install: bashrc bash_profile bash_logout vimrc clang-format aspell-conf inputrc tmux-conf zshrc
 
 install_minimal: bashrc bash_profile bash_logout inputrc

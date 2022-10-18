@@ -68,12 +68,12 @@ function make() {
     time command make "$@"
 }
 
-# Try to reattach existing screen unless any arguments supplied.
-function screen() {
+# Try to attach existing tmux session unless any arguments supplied.
+function tmux() {
     if [ $# -eq 0 ]; then
-        command screen -Rq
+        command tmux new-session -As0
     else
-        command screen "$@"
+        command tmux "$@"
     fi
 }
 

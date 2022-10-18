@@ -1,32 +1,32 @@
 " Plug-ins
-cal plug#begin()
+call plug#begin()
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'bluz71/vim-moonfly-colors'
-cal plug#end()
+call plug#end()
 
-se nu
-se cul
-se noswf
-se nobk
-se noudf
-se tgc
-se et
-se ts=4
-se sw=4
-se scl=yes
-lan messages C
+set number
+set cursorline
+set noswapfile
+set nobackup
+set noundofile
+set termguicolors
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set signcolumn=yes
+language messages C
 
 syntax enable
-colo moonfly
+colorscheme moonfly
 
-se stl=\ %f\ %y%r%=%l,%c%V\ %m
-se ls=2
+set statusline=\ %f\ %y%r%=%l,%c%V\ %m
+set laststatus=2
 
 " Go
-au FileType go setl noet
+autocmd FileType go setlocal noexpandtab
 
 " Makefile
-au FileType make setl noet
+autocmd FileType make setlocal noexpandtab
