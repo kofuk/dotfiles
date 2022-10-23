@@ -13,14 +13,14 @@ function __exit_status_prompt() {
 
     if [ "${_prompt_last_exit}" -eq 0 ]; then
         local sign
-        if [ "x${XDG_SESSION_TYPE}" = 'xtty' ]; then
+        if [ ! -z "${SSH_CONNECTION}" ] || [ "${XDG_SESSION_TYPE}" = 'tty' ]; then
             sign='OK'
         else
             sign='✓'
         fi
         message="${color_ok}${sign}${color_reset}"
-    elif [ "$_prompt_last_exit" -gt 128 ] && \
-             kill -l "$(($_prompt_last_exit-128))" &>/dev/null; then
+    elif [ "${_prompt_last_exit}" -gt 128 ] && \
+             kill -l "$((${_prompt_last_exit-128}))" &>/dev/null; then
         message="${color_err}$(kill -l "$((_prompt_last_exit-128))")${color_reset}"
     else
         message="${color_err}${_prompt_last_exit}${color_reset}"
@@ -32,8 +32,8 @@ function __exit_status_prompt() {
     if [ ! -z "${_PROMPT_FIRST_EXEC}" ]; then
         unset _PROMPT_FIRST_EXEC
     else
-        if [ "${color_prompt}" = yes ] && [ "x${TERM}" != 'xdumb' ]; then
-            if [ -z "${INSIDE_EMACS}" ] || [ "x${INSIDE_EMACS}" = 'xvterm' ]; then
+        if [ "${color_prompt}" = yes ] && [ "${TERM}" != 'dumb' ]; then
+            if [ -z "${INSIDE_EMACS}" ] || [ "${INSIDE_EMACS}" = 'vterm' ]; then
                 # https:/zenn.dev/mattn/articles/b4d56356f42453
                 # TODO: Don't evaluate if no command executed previously.
                 local cursor_pos
