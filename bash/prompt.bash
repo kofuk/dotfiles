@@ -16,12 +16,13 @@ function __construct_prompt() {
 
     local tag_name=
     if [ ! -z "${SSH_CLIENT}" ]; then
-        tag_name='SSH'
-    elif command -v systemd-detect-virt &>/dev/null; then
+        tag_name=' SSH'
+    fi
+    if command -v systemd-detect-virt &>/dev/null; then
         case "$(systemd-detect-virt)" in
             none) ;;
             systemd-nspawn)
-                tag_name='NSPAWN'
+                tag_name=' NSPAWN'
                 ;;
         esac
     fi
@@ -29,7 +30,7 @@ function __construct_prompt() {
     if [ -z "${tag_name}" ]; then
         _PS1=
     else
-        _PS1="${color_tag} ${tag_name} ${color_reset} "
+        _PS1="${color_tag}${tag_name} ${color_reset} "
         host='@\h'
     fi
 
