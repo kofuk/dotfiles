@@ -38,6 +38,7 @@ function __exit_status_prompt() {
                 # TODO: Don't evaluate if no command executed previously.
                 local cursor_pos
                 echo -en '\033[6n' && read -sdR cursor_pos
+                [ ! -z "${FIG_JETBRAINS_SHELL_INTEGRATION}" ] && read -sdR cursor_pos
                 if [ "$(cut -d\; -f2 <<<"${cursor_pos}")" -gt 1 ]; then
                     echo -e '\033[7;1m%\033[0m'
                 else
