@@ -23,40 +23,6 @@ function gitapplyw32() {
     uconv -f UTF-16 -t UTF-8 "$1" | tr -d '\r' | git apply -
 }
 
-# XXX No longer works (because of Wayland)
-function screenrecord() {
-    if [ "$XDG_SESSION_TYPE" != "x11" ]; then
-        echo 'Must run in Xorg session.'
-        return 1
-    fi
-
-    local dimen="$(xdpyinfo | grep dimensions | head -n 1 | awk '{print $2}')"
-    if [ -z "$dimen" ]; then
-        echo 'Cannot retrive screen dimension.'
-        return 1
-    fi
-
-    if [[ $# -eq 0 ]]; then
-        echo 'screenrecord: fatal: Must specify output filename.'
-        return 1;
-    elif [[ $# -ge 1 ]]; then
-        if [ "$1" = '--help' ]; then
-            echo 'Usage: screenrecord [--with-audio] OUTNAME'
-            return 0
-        elif [ "$1" = '--with-audio' ]; then
-            if [ $# -ge 2 ]; then
-                ffmpeg -video_size "$dimen" -framerate 25 -f x11grab -i :0.0+0,0 -f pulse -ac 2 -i default "$2"
-            else
-                echo 'Must specify output filename.'
-                return 1
-            fi
-        else
-            ffmpeg -video_size "$dimen" -framerate 25 -f x11grab -i :0.0+0,0 "$1"
-            return 1
-        fi
-    fi
-}
-
 function tex2pdf() {
     if [[ ! $# -eq 1 ]]; then
         echo 'Please specify a texname' >&2
@@ -119,20 +85,6 @@ function texwatch() {
                 fi
             fi
         done
-}
-
-# convert text file to utf-8
-function tofu() {
-    if [[ $# -ne 1 ]]; then
-        echo 'usage: tofu FILE' >&2
-        return 1
-    fi
-    local enc="$(uchardet "$1")"
-    if [ "$enc" = 'unknown' ]; then
-        echo 'Unable to determine original encoding'
-        return 1
-    fi
-    uconv -f "$enc" "$1"
 }
 
 function hijack() {
