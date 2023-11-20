@@ -16,20 +16,18 @@ bind -x '"\C-y": __K_complete_file'
 
 Menu() {
     local additional_items
-    if [ -e "${HOME}/.config/shmenu/menu.txt" ]; then
-        additional_items+=( "${HOME}/.config/shmenu/global.txt" )
-    fi
-    if [ -e .shmenu.txt ]; then
-        additional_items+=( '.shmenu.txt' )
-    fi
+    [ -e "${HOME}/.config/shmenu/menu.txt" ] && additional_items+=( "${HOME}/.config/shmenu/menu.txt" )
+    [ -e "${HOME}/.config/shmenu/functions.txt" ] && . "${HOME}/.config/shmenu/functions.txt"
+
     local cmd
     cmd=$(
         set -o pipefail
-        cat - "${additional_items[@]}" <<'EOF' | fzf --with-nth 2.. | cut -d ' ' -f1
-__K_docker_kill docker | Kill Containers
-__K_git_switch git    | Switch Branch
-__K_git_branch_del git    | Delete Local Branch
-__K_repo misc   | Change Directory to a Repository
+        cat - "${additional_items[@]}" <<'EOF' | grep -v '^#' | perl -pe 's/\{([^}]+)\}/if(! -e $1){"[HIDDEN]"}/e' | grep -v '\[HIDDEN\]' | \
+            fzf --with-nth 2.. | cut -d ' ' -f1
+__K_docker_kill    docker | Kill Containers
+__K_git_switch     git    | Switch Branch {.git}
+__K_git_branch_del git    | Delete Local Branch {.git}
+__K_repo           misc   | Change Directory to a Repository
 EOF
        ) || return
 
