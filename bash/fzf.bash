@@ -17,13 +17,12 @@ bind -x '"\C-y": __K_complete_file'
 Menu() {
     local additional_items
     [ -e "${HOME}/.config/shmenu/menu.txt" ] && additional_items+=( "${HOME}/.config/shmenu/menu.txt" )
-    [ -e "${HOME}/.config/shmenu/functions.txt" ] && . "${HOME}/.config/shmenu/functions.txt"
+    [ -e "${HOME}/.config/shmenu/prehook.sh" ] && . "${HOME}/.config/shmenu/prehook.sh"
 
     local cmd
     cmd=$(
         set -o pipefail
-        cat - "${additional_items[@]}" <<'EOF' | grep -v '^#' | perl -pe 's/\{([^}]+)\}/if(! -e $1){"[HIDDEN]"}/e' | grep -v '\[HIDDEN\]' | \
-            fzf --with-nth 2.. | cut -d ' ' -f1
+        cat - "${additional_items[@]}" <<'EOF' | grep -v '^#' | perl -pe 's/\{([^}]+)\}/if(! -e $1){"[HIDDEN]"}/e' | grep -v '\[HIDDEN\]' | fzf --with-nth 2.. | cut -d ' ' -f1
 __K_docker_kill    docker | Kill Containers
 __K_git_switch     git    | Switch Branch {.git}
 __K_git_branch_del git    | Delete Local Branch {.git}
