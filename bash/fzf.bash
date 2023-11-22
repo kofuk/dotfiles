@@ -67,7 +67,7 @@ __K_git_switch() {
         {
             git for-each-ref --format='%(refname:strip=2)' 'refs/heads/*' 'refs/heads/*/**'
             git for-each-ref --format='%(refname:strip=3)' 'refs/remotes/*' 'refs/remotes/*/**'
-        } | fzf) || return
+        } | sort -u | fzf) || return
     git switch -- "${ref}"
 }
 
