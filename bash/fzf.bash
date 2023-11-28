@@ -30,6 +30,7 @@ __K_docker_rmi     docker | Remove Images
 __K_git_switch     git    | Switch Branch {<.git}
 __K_git_branch_del git    | Delete Local Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
+__K_cd             misc   | cd Interactively
 EOF
        ) || return
 
@@ -43,7 +44,7 @@ __K_docker_kill() {
     containers=(
         $(
             set -o pipefail
-            docker ps -aq |
+            docker ps -q |
                 fzf --multi --preview 'docker ps -af id={} --format "Image: {{ .Image }}\nCommand: {{ .Command }}\nCreated: {{ .CreatedAt }}\nStatus: {{ .Status }}"'
         )
     ) || return
@@ -103,4 +104,12 @@ __K_repo() {
             fzf --preview 'shopt -s nullglob; cat "${HOME}"/source/{}/README*' |
             sed "s@^@${HOME}/source/@") || return
     cd -- "${dir}"
+}
+
+__K_cd() {
+    local path
+    path=$(find -L . -mindepth 1 \( -name '.*' -not -name '.github' -o -name 'node_modules' -o -name 'target' \) -prune -o -type d -print -o -type l -print 2>/dev/null | \
+               cut -b3- | \
+               fzf) || return
+    cd -- "${path}"
 }
