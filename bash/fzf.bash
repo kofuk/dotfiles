@@ -31,6 +31,7 @@ __K_git_switch     git    | Switch Branch {<.git}
 __K_git_branch_del git    | Delete Local Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
 __K_cd             misc   | cd Interactively
+__K_load_env       misc   | Load .env
 EOF
        ) || return
 
@@ -112,4 +113,8 @@ __K_cd() {
                cut -b3- | \
                fzf) || return
     cd -- "${path}"
+}
+
+__K_load_env() {
+    eval "$(cat .env | sed '/^$/d; /^#/d; s/^/export /')"
 }
