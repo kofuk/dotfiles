@@ -36,3 +36,7 @@ fi
 if [ -d "$HOME/.cargo/bin" ]; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
+
+if command -v gh &>/dev/null; then
+    eval "$(gh completion -s bash)"
+fi
