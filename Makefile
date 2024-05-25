@@ -83,5 +83,6 @@ install_minimal: install-w32
 endif
 
 install: bashrc bash_profile bash_logout vimrc clang-format aspell-conf inputrc tmux-conf zshrc
+	[ -e $(HOME)/.profile ] && mv $(HOME)/.profile $(HOME)/.profile.bak
 
 install_minimal: bashrc bash_profile bash_logout inputrc
