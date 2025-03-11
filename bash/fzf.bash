@@ -1,8 +1,11 @@
 export FZF_DEFAULT_OPTS='--height 40% --cycle --bind=ctrl-z:ignore --marker="*" --color=dark,info:bright-cyan,prompt:cyan:bold,pointer:white,marker:white:bold'
 
 __K_history() {
-    READLINE_LINE="$(builtin fc -lnr -10000000 | sed 's/^\t //' | fzf)"
-    READLINE_POINT=0x7fffffff
+    local completion="$(builtin fc -lnr -10000000 | sed 's/^\t //' | fzf)"
+    if [ -n "${completion}" ]; then
+        READLINE_LINE="${completion}"
+        READLINE_POINT=0x7fffffff
+    fi
 }
 bind -x '"\C-r": __K_history'
 
