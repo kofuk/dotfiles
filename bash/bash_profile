@@ -40,3 +40,7 @@ fi
 if command -v gh &>/dev/null; then
     eval "$(gh completion -s bash)"
 fi
+
+if command -v mise &>/dev/null; then
+    eval "$(mise activate bash)"
+fi
