@@ -35,6 +35,7 @@ __K_git_branch_del git    | Delete Local Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
 __K_cd             misc   | cd Interactively
 __K_load_env       misc   | Load .env
+__K_kube_ctx       k8s    | Switch kubectl context
 EOF
        ) || return
 
@@ -120,4 +121,13 @@ __K_cd() {
 
 __K_load_env() {
     eval "$(cat .env | sed '/^$/d; /^#/d; s/^/export /')"
+}
+
+__K_kube_ctx() {
+    local context namespace
+    context=$(kubectl config get-contexts --output=name | fzf) || return
+    namespace=$(kubectl get namespace --context="${context}" --output=name | sed 's@namespace/@@; s/default/(\0)/' | fzf) || return
+    namespace=$(sed 's/(default)//' <<<"${namespace}")
+    kubectl config set-context "${context}" --namespace="${namespace}"
+    kubectl config use-context "${context}"
 }
