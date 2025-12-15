@@ -72,3 +72,11 @@ if ! shopt -oq posix; then
         . /etc/bash_completion
     fi
 fi
+
+# mise
+if command -v mise &>/dev/null; then
+    eval "$(mise activate bash)"
+    if command -v usage &>/dev/null; then
+        eval "$(mise completion bash --include-bash-completion-lib)"
+    fi
+fi

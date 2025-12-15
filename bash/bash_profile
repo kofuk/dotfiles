@@ -40,10 +40,3 @@ fi
 if command -v gh &>/dev/null; then
     eval "$(gh completion -s bash)"
 fi
-
-if command -v mise &>/dev/null; then
-    eval "$(mise activate bash)"
-    if command -v usage &>/dev/null; then
-        eval "$(mise completion bash --include-bash-completion-lib)"
-    fi
-fi
