@@ -80,3 +80,9 @@ if command -v mise &>/dev/null; then
         eval "$(mise completion bash --include-bash-completion-lib)"
     fi
 fi
+
+# Override cd command which is overridden by mise activation script
+unset -f cd popd pushd
+function cd() {
+    _git_aware_cd "$@"
+}
