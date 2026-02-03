@@ -10,14 +10,13 @@ if [ -d /opt/bin ]; then
     PATH="/opt/bin:$PATH"
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
 # add golang binary path if it exists
 if [ -d "/usr/local/go/bin" ]; then
     PATH="/usr/local/go/bin:$PATH"
+fi
+
+if [ -d "$HOME/.cargo/bin" ]; then
+    PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # add go binary path if it exists
@@ -33,8 +32,9 @@ if command -v opam &>/dev/null; then
     eval $(opam env)
 fi
 
-if [ -d "$HOME/.cargo/bin" ]; then
-    PATH="$HOME/.cargo/bin:$PATH"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi
 
 if command -v gh &>/dev/null; then
