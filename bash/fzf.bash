@@ -27,14 +27,9 @@ Menu() {
         set -o pipefail
         local filter_menu_pl="$(cd "$(dirname "${BASH_SOURCE:-0}")"; pwd)/filter_menu.pl"
         cat - "${additional_items[@]}" <<'EOF' | grep -v '^#' | perl -p "${filter_menu_pl}" | grep -v '\[HIDDEN\]' | fzf --with-nth 2.. | cut -d ' ' -f1
-__K_docker_kill    docker | Kill Containers
-__K_docker_rm      docker | Remove Containers
-__K_docker_rmi     docker | Remove Images
 __K_git_switch     git    | Switch Branch {<.git}
-__K_git_branch_del git    | Delete Local Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
 __K_cd             misc   | cd Interactively
-__K_load_env       misc   | Load .env
 __K_kube_ctx       k8s    | Switch kubectl context
 EOF
        ) || return
@@ -43,54 +38,6 @@ EOF
 }
 # We can't use `bind -x` because it forks.
 bind '"\C-@": "\C-e\C-u Menu\n"'
-
-__K_docker_kill() {
-    local containers
-    containers=(
-        $(
-            set -o pipefail
-            docker ps -q |
-                fzf --multi --preview 'docker ps -af id={} --format "Image: {{ .Image }}\nCommand: {{ .Command }}\nCreated: {{ .CreatedAt }}\nStatus: {{ .Status }}"'
-        )
-    ) || return
-    docker container kill -- "${containers[@]}"
-}
-
-__K_docker_rm() {
-    local containers
-    containers=(
-        $(
-            set -o pipefail
-            docker ps -aq |
-                fzf --multi --preview 'docker ps -af id={} --format "Image: {{ .Image }}\nCommand: {{ .Command }}\nCreated: {{ .CreatedAt }}\nStatus: {{ .Status }}"'
-        )
-    ) || return
-    docker container rm -- "${containers[@]}"
-}
-
-__K_docker_rmi() {
-    local images
-    images=(
-        $(
-            set -o pipefail
-            docker image ls --format '{{ if eq .Tag "<none>" }}{{ .ID }}{{ else }}{{ .Repository }}:{{ .Tag }}{{ end }}' |
-                fzf --multi --preview 'docker image inspect --format "ID: {{ .ID }}'$'\n''Created: {{ .Created }}" {}'
-        )
-    ) || return
-    docker image rm -- "${images[@]}"
-}
-
-__K_git_branch_del() {
-    local ref
-    refs=(
-        $(
-            set -o pipefail
-            git for-each-ref --format='%(refname:strip=2)' 'refs/heads/*' 'refs/heads/*/**' |
-                fzf --multi
-        )
-    ) || return
-    git branch -D "${refs[@]}"
-}
 
 __K_git_switch() {
     local ref
@@ -117,10 +64,6 @@ __K_cd() {
                cut -b3- | \
                fzf) || return
     cd -- "${path}"
-}
-
-__K_load_env() {
-    eval "$(cat .env | sed '/^$/d; /^#/d; s/^/export /')"
 }
 
 __K_kube_ctx() {
