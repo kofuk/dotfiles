@@ -52,10 +52,18 @@ __K_git_switch() {
 
 __K_repo() {
     local dir=$(
-        ls ~/source |
-            fzf --preview 'shopt -s nullglob; cat "${HOME}"/source/{}/README*' |
-            sed "s@^@${HOME}/source/@") || return
-    cd -- "${dir}"
+        set -o pipefail
+        { 
+            find ~/source -maxdepth 3 -mindepth 3 -not -path '*/_/*' -printf '%P\n' | \
+                awk -F/ '{print $2"/"$3" @ "$1}'
+            if [ -d "${HOME}/source/_" ]; then
+                ls "${HOME}/source/_"
+            fi
+        } | \
+            fzf | \
+            awk -F ' @ ' '{if(NF==2){print $2"/"$1}else{print "_/"$1}}'
+    )
+    cd -- "${HOME}/source/${dir}"
 }
 
 __K_cd() {
