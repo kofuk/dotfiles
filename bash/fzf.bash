@@ -51,7 +51,8 @@ __K_git_switch() {
 }
 
 __K_repo() {
-    local dir=$(
+    local dir
+    dir=$(
         set -o pipefail
         { 
             find ~/source -maxdepth 3 -mindepth 3 -not -path '*/_/*' -printf '%P\n' | \
@@ -62,7 +63,7 @@ __K_repo() {
         } | \
             fzf | \
             awk -F ' @ ' '{if(NF==2){print $2"/"$1}else{print "_/"$1}}'
-    )
+    ) || return
     cd -- "${HOME}/source/${dir}"
 }
 
