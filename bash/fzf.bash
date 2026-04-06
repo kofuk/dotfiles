@@ -29,8 +29,8 @@ Menu() {
         cat - "${additional_items[@]}" <<'EOF' | grep -v '^#' | perl -p "${filter_menu_pl}" | grep -v '\[HIDDEN\]' | fzf --with-nth 2.. | cut -d ' ' -f1
 __K_git_switch     git    | Switch Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
-__K_cd             misc   | cd Interactively
 __K_kube_ctx       k8s    | Switch kubectl context
+__K_gh_browse      misc   | Open Current Directory in Web Browser
 EOF
        ) || return
 
@@ -67,14 +67,6 @@ __K_repo() {
     cd -- "${HOME}/source/${dir}"
 }
 
-__K_cd() {
-    local path
-    path=$(find -L . -mindepth 1 \( -name '.*' -not -name '.github' -o -name 'node_modules' -o -name 'target' \) -prune -o -type d -print -o -type l -print 2>/dev/null | \
-               cut -b3- | \
-               fzf) || return
-    cd -- "${path}"
-}
-
 __K_kube_ctx() {
     local context namespace
     context=$(kubectl config get-contexts --output=name | fzf) || return
@@ -82,4 +74,8 @@ __K_kube_ctx() {
     namespace=$(sed 's/(default)//' <<<"${namespace}")
     kubectl config set-context "${context}" --namespace="${namespace}"
     kubectl config use-context "${context}"
+}
+
+__K_gh_browse() {
+    gh browse
 }
