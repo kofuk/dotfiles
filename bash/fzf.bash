@@ -30,7 +30,7 @@ Menu() {
 __K_git_switch     git    | Switch Branch {<.git}
 __K_repo           misc   | Change Directory to a Repository
 __K_kube_ctx       k8s    | Switch kubectl context
-__K_gh_browse      misc   | Open Current Directory in Web Browser
+__K_gh_browse      misc   | Open Current Directory in Web Browser {<.git}
 EOF
        ) || return
 
