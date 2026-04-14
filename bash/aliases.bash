@@ -26,7 +26,7 @@ elif command -v xclip &>/dev/null; then
     alias cpaste='xclip -selection clipboard -o'
 elif grep microsoft /proc/version &>/dev/null; then
     # WSL
-    alias ccopy='uconv -f UTF-8 -t Shift_JIS | clip.exe'
+    alias ccopy='iconv -f UTF-8 -t UTF-16 | clip.exe'
     alias cpaste='powershell.exe -Command Get-Clipboard'
 fi
 if diff --color=auto /dev/null /dev/null &>/dev/null; then
