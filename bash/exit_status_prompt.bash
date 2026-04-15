@@ -13,10 +13,10 @@ function __exit_status_prompt() {
 
     if [ "${_prompt_last_exit}" -eq 0 ]; then
         local sign
-        if [ ! -z "${SSH_CONNECTION}" ] || [ "${XDG_SESSION_TYPE}" = 'tty' ]; then
-            sign='OK'
-        else
+        if [ "${color_prompt}" = yes ]; then
             sign='✓'
+        else
+            sign='OK'
         fi
         message="${color_ok}${sign}${color_reset}"
     elif [ "${_prompt_last_exit}" -gt 128 ] && \

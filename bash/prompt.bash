@@ -24,6 +24,9 @@ function __construct_prompt() {
             systemd-nspawn)
                 tag_name=' NSPAWN'
                 ;;
+            lxc)
+                tag_name=' LXC'
+                ;;
         esac
     fi
 

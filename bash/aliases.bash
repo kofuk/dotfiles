@@ -17,17 +17,16 @@ alias ctest='ctest --verbose'
 if command -v xsel &>/dev/null; then
     alias ccopy='xsel -ib'
     alias cpaste='xsel -ob'
-elif command -v termux-clipboard-set &>/dev/null; then
-    # Termux on Android
-    alias ccopy='termux-clipboard-set'
-    alias cpaste='termux-clipboard-get'
-elif command -v xclip &>/dev/null; then
-    alias ccopy='xclip -selection clipboard'
-    alias cpaste='xclip -selection clipboard -o'
 elif grep microsoft /proc/version &>/dev/null; then
     # WSL
     alias ccopy='iconv -f UTF-8 -t UTF-16 | clip.exe'
     alias cpaste='powershell.exe -Command Get-Clipboard'
+elif command -v pbcopy &>/dev/null; then
+    alias ccopy='pbcopy'
+    alias cpaste='pbpaste'
+elif command -v xclip &>/dev/null; then
+    alias ccopy='xclip -selection clipboard'
+    alias cpaste='xclip -selection clipboard -o'
 fi
 if diff --color=auto /dev/null /dev/null &>/dev/null; then
     alias diff='diff -u --color=auto'
