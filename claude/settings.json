@@ -1,0 +1,55 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(src/**)",
+      "Write(docs/**)",
+      "Write(.tmp/**)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(pnpm install:*)",
+      "Bash(ls:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck)",
+      "Bash(npm test:*)",
+      "Bash(poetry run pydoclint:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(mise run lint:*)",
+      "Bash(./gradlew check)"
+    ],
+    "deny": [
+      "Bash(sudo:*)",
+      "Bash(rm -rf:*)",
+      "Read(.env*)",
+      "Read(.env.*)",
+      "Read(id_rsa)",
+      "Read(id_ed25519)",
+      "Write(.env*)"
+    ]
+  },
+  "model": "opus[1m]",
+  "enableAllProjectMcpServers": false,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "language": "日本語（常に博多弁。タメ口で OK）",
+  "spinnerVerbs": {
+    "mode": "append",
+    "verbs": [
+      "Unchying"
+    ]
+  },
+  "effortLevel": "medium",
+  "awaySummaryEnabled": false,
+  "preferredNotifChannel": "terminal_bell",
+  "voiceEnabled": false
+}

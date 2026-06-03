@@ -74,6 +74,10 @@ tmux-conf:
 	@ echo 'LN	.zshrc'
 	@ $(SYMLINK) $(CURDIR)/zsh/zshrc.zsh $(HOME)/.zshrc
 
+.PHONY: claude
+claude:
+	$(MAKE) -C claude install
+
 .PHONY: install
 .PHONY: install_minimal
 
@@ -82,7 +86,7 @@ install: install-w32
 install_minimal: install-w32
 endif
 
-install: bashrc bash_profile bash_logout vimrc clang-format aspell-conf inputrc tmux-conf zshrc
+install: bashrc bash_profile bash_logout claude vimrc clang-format aspell-conf inputrc tmux-conf zshrc
 	[ -e $(HOME)/.profile ] && mv $(HOME)/.profile $(HOME)/.profile.bak || true
 
 install_minimal: bashrc bash_profile bash_logout inputrc
