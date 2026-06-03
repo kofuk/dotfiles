@@ -3,6 +3,6 @@ CP := cp
 
 .PHONY: install
 install:
-	$(SYMLINK) CLAUDE.md $(HOME)/.claude/CLAUDE.md
-	$(SYMLINK) settings.json $(HOME)/.claude/settings.json
-	$(SYMLINK) statusline.sh $(HOME)/.claude/statusline.sh
+	$(SYMLINK) $(CURDIR)/CLAUDE.md $(HOME)/.claude/CLAUDE.md
+	$(SYMLINK) $(CURDIR)/settings.json $(HOME)/.claude/settings.json
+	$(SYMLINK) $(CURDIR)/statusline.sh $(HOME)/.claude/statusline.sh
