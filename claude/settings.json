@@ -51,5 +51,6 @@
   "effortLevel": "medium",
   "awaySummaryEnabled": false,
   "preferredNotifChannel": "terminal_bell",
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "tui": "fullscreen"
 }
