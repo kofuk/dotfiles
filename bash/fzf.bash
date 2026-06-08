@@ -50,21 +50,70 @@ __K_git_switch() {
     git switch -- "${ref}"
 }
 
+__K_workspace_folders() {
+    # Print "<display name>\t<folder path>" for each entry in the *.code-workspace
+    # file given as $1. These files are JSONC (comments / trailing commas allowed),
+    # so comments are stripped and trailing commas dropped before parsing with the
+    # core JSON::PP module. perl is assumed present (it is also used by Menu and Git).
+    perl -e '
+        use strict; use warnings; use JSON::PP;
+        binmode(STDOUT, q{:utf8});
+        my $src = do { local $/; <> };
+        defined $src or exit 0;
+        # Keep string literals verbatim; drop // and /* */ comments.
+        $src =~ s{("(?:\\.|[^"\\])*")|//[^\n]*|/\*.*?\*/}{defined $1 ? $1 : q{}}gesx;
+        $src =~ s/,(\s*[}\]])/$1/g;  # drop trailing commas
+        my $data = eval { decode_json($src) };
+        exit 0 unless ref $data eq q{HASH} && ref $data->{folders} eq q{ARRAY};
+        for my $f (@{$data->{folders}}) {
+            next unless ref $f eq q{HASH} && defined $f->{path} && length $f->{path};
+            my $name = (defined $f->{name} && length $f->{name}) ? $f->{name} : $f->{path};
+            print $name, qq{\t}, $f->{path}, qq{\n};
+        }
+    ' -- "$1" 2>/dev/null
+}
+
 __K_repo() {
+    # Each line fed to fzf is "<display>\t<target dir>"; only the display column
+    # is shown and the target directory is recovered after selection.
     local dir
     dir=$(
         set -o pipefail
-        { 
+        {
+            # Repository roots that hold a *.code-workspace; these are represented by
+            # their workspace folder entries (including the "." root) instead of a
+            # bare directory entry, to avoid a duplicate pointing at the same root.
+            ws_dirs=$(find ~/source -maxdepth 4 -mindepth 4 -not -path '*/_/*' -name '*.code-workspace' -printf '%h\n' 2>/dev/null | sort -u)
+
+            # Repositories: ~/source/<host>/<org>/<repo>, skipping workspace-backed ones.
             find ~/source -maxdepth 3 -mindepth 3 -not -path '*/_/*' -printf '%P\n' | \
-                awk -F/ '{print $2"/"$3" @ "$1}'
+                awk -F/ -v home="${HOME}" -v wslist="${ws_dirs}" '
+                    BEGIN { n = split(wslist, a, "\n"); for (i = 1; i <= n; i++) ws[a[i]] = 1 }
+                    { full = home"/source/"$0; if (!(full in ws)) print $2"/"$3" @ "$1"\t"full }
+                '
+
+            # Misc directories: ~/source/_/<name>
             if [ -d "${HOME}/source/_" ]; then
-                ls "${HOME}/source/_"
+                find "${HOME}/source/_" -maxdepth 1 -mindepth 1 -printf '_/%P\t%p\n'
             fi
+
+            # Folders declared in *.code-workspace files at repository roots.
+            find ~/source -maxdepth 4 -mindepth 4 -not -path '*/_/*' -name '*.code-workspace' -print0 2>/dev/null | \
+                while IFS= read -r -d '' ws; do
+                    wsdir=$(dirname -- "${ws}")
+                    wsname=$(basename -- "${ws}" .code-workspace)
+                    __K_workspace_folders "${ws}" | \
+                        while IFS=$'\t' read -r fname fpath; do
+                            # Resolve relative/absolute folder paths against the workspace dir.
+                            target=$(cd -- "${wsdir}" 2>/dev/null && cd -- "${fpath}" 2>/dev/null && pwd) || continue
+                            printf '%s: %s\t%s\n' "${wsname}" "${fname}" "${target}"
+                        done
+                done
         } | \
-            fzf | \
-            awk -F ' @ ' '{if(NF==2){print $2"/"$1}else{print "_/"$1}}'
+            fzf --delimiter=$'\t' --with-nth=1 | \
+            cut -f2
     ) || return
-    cd -- "${HOME}/source/${dir}"
+    cd -- "${dir}"
 }
 
 __K_kube_ctx() {
