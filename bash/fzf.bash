@@ -94,7 +94,7 @@ __K_repo() {
 
             # Misc directories: ~/source/_/<name>
             if [ -d "${HOME}/source/_" ]; then
-                find "${HOME}/source/_" -maxdepth 1 -mindepth 1 -printf '_/%P\t%p\n'
+                find "${HOME}/source/_" -maxdepth 1 -mindepth 1 -printf '%P\t%p\n'
             fi
 
             # Folders declared in *.code-workspace files at repository roots.

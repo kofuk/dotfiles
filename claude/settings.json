@@ -30,7 +30,6 @@
       "Bash(npm:*)"
     ]
   },
-  "model": "opus[1m]",
   "enableAllProjectMcpServers": false,
   "statusLine": {
     "type": "command",
@@ -43,9 +42,10 @@
       "Unchying"
     ]
   },
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "preferredNotifChannel": "terminal_bell",
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "model": "opus[1m]"
 }
