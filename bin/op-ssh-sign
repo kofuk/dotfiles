@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Bridge required files from / to macOS
+
+f1=$6
+f2=$8
+cp "$f1" "/mnt/mac/$f1"
+cp "$f2" "/mnt/mac/$f2"
+
+'/Applications/1Password.app/Contents/MacOS/op-ssh-sign' "$@"
+cp "/mnt/mac/$f2.sig" "$f2.sig"
+
+rm "/mnt/mac/$f1" "/mnc/mac/$f2" "/mnt/mac/$f2.sig" || true
