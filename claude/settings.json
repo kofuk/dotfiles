@@ -46,6 +46,5 @@
   "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "preferredNotifChannel": "terminal_bell",
-  "voiceEnabled": false,
-  "model": "opus[1m]"
+  "voiceEnabled": false
 }
