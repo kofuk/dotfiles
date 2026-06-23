@@ -1,6 +1,8 @@
 SYMLINK := ln -sf
 CP := cp
 
+IS_WSL := $(shell grep -qi microsoft /proc/version 2>/dev/null && echo yes || echo no)
+
 .PHONY: help
 help:
 	@ echo 'If you want to install dotfiles, run'
@@ -78,12 +80,23 @@ tmux-conf:
 claude:
 	$(MAKE) -C claude install
 
+.PHONY: op
+op:
+	@ echo 'MKDIR	~/bin'
+	@ mkdir -p $(HOME)/bin
+	@ echo 'LN	~/bin/op'
+	@ $(SYMLINK) $(CURDIR)/bin/op $(HOME)/bin/op
+
 .PHONY: install
 .PHONY: install_minimal
 
 ifdef MSYSTEM
 install: install-w32
 install_minimal: install-w32
+endif
+
+ifeq ($(IS_WSL),yes)
+install: op
 endif
 
 install: bashrc bash_profile bash_logout claude vimrc clang-format aspell-conf inputrc tmux-conf zshrc

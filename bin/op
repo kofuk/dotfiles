@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "${1-}" = "run" ]; then
+    shift
+
+    account=""
+    cmd_args=()
+    found_sep=false
+
+    while [ $# -gt 0 ]; do
+        if [ "$found_sep" = true ]; then
+            cmd_args+=("$1")
+        elif [ "$1" = "--" ]; then
+            found_sep=true
+        elif [ "$1" = "--account" ] && [ $# -gt 1 ]; then
+            account="$2"
+            shift
+        elif [[ "$1" == -* ]]; then
+            echo "op: unsupported flag for WSL wrapper: $1" >&2
+            exit 1
+        else
+            echo "op: unexpected argument: $1" >&2
+            exit 1
+        fi
+        shift
+    done
+
+    if [ ${#cmd_args[@]} -eq 0 ]; then
+        echo "op: 'op run' in WSL wrapper requires a command after '--'" >&2
+        exit 1
+    fi
+
+    # Resolve environment variables with op:// references on the WSL side
+    read_flags=()
+    [ -n "$account" ] && read_flags=("--account" "$account")
+
+    while IFS= read -r line; do
+        name="${line%%=*}"
+        value="${line#*=}"
+        if [[ "$value" == op://* ]]; then
+            resolved=$(op.exe read "${read_flags[@]}" "$value" </dev/null) || {
+                echo "op: failed to read secret for $name" >&2
+                exit 1
+            }
+            export "${name}=${resolved}"
+        fi
+    done < <(env)
+
+    exec "${cmd_args[@]}"
+else
+    exec op.exe "$@"
+fi
