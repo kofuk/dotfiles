@@ -1,13 +1,63 @@
 #!/usr/bin/env bash
 
-# Bridge required files from / to macOS
+# Bridge required files from Linux to macOS for 1Password SSH signing.
+# Invoked by git as: op-ssh-sign -Y sign -f <key> [-U] -n <namespace> <datafile>
 
-f1=$6
-f2=$8
-cp "$f1" "/mnt/mac/$f1"
-cp "$f2" "/mnt/mac/$f2"
+declare -a bridge_src=()
+declare -a bridge_base=()
+declare -a sig_src=()
+declare -a sig_base=()
 
-'/Applications/1Password.app/Contents/MacOS/op-ssh-sign' "$@"
-cp "/mnt/mac/$f2.sig" "$f2.sig"
+declare -a new_args=()
 
-rm "/mnt/mac/$f1" "/mnc/mac/$f2" "/mnt/mac/$f2.sig" || true
+i=1
+while [[ $i -le $# ]]; do
+    arg="${!i}"
+    case "$arg" in
+        -f)
+            i=$((i + 1))
+            src="${!i}"
+            base=$(basename "$src")
+            bridge_src+=("$src")
+            bridge_base+=("$base")
+            new_args+=("-f" "/tmp/$base")
+            ;;
+        -Y|-n|-O|-w|-I|-D)
+            new_args+=("$arg")
+            i=$((i + 1))
+            new_args+=("${!i}")
+            ;;
+        -*)
+            new_args+=("$arg")
+            ;;
+        *)
+            base=$(basename "$arg")
+            bridge_src+=("$arg")
+            bridge_base+=("$base")
+            sig_src+=("$arg")
+            sig_base+=("$base")
+            new_args+=("/tmp/$base")
+            ;;
+    esac
+    i=$((i + 1))
+done
+
+for i in "${!bridge_src[@]}"; do
+    cp "${bridge_src[$i]}" "/mnt/mac/tmp/${bridge_base[$i]}"
+done
+
+'/Applications/1Password.app/Contents/MacOS/op-ssh-sign' "${new_args[@]}"
+exit_code=$?
+
+for i in "${!sig_src[@]}"; do
+    cp "/mnt/mac/tmp/${sig_base[$i]}.sig" "${sig_src[$i]}.sig"
+done
+
+for base in "${bridge_base[@]}"; do
+    rm -f "/mnt/mac/tmp/$base"
+done
+for base in "${sig_base[@]}"; do
+    rm -f "/mnt/mac/tmp/$base.sig"
+done
+
+exit $exit_code
