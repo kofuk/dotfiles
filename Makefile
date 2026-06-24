@@ -2,6 +2,7 @@ SYMLINK := ln -sf
 CP := cp
 
 IS_WSL := $(shell grep -qi microsoft /proc/version 2>/dev/null && echo yes || echo no)
+IS_ORBSTACK := $(shell uname -r | grep -qi orbstack && echo yes || echo no)
 
 .PHONY: help
 help:
@@ -96,6 +97,10 @@ install_minimal: install-w32
 endif
 
 ifeq ($(IS_WSL),yes)
+install: op
+endif
+
+ifeq ($(IS_ORBSTACK),yes)
 install: op
 endif
 

@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "${1-}" = "run" ]; then
-    shift
+readonly _KERNEL="$(uname -r)"
 
-    account=""
-    cmd_args=()
-    found_sep=false
+op() {
+    if [[ "$_KERNEL" =~ [Mm]icrosoft ]]; then
+        op.exe "$@"
+    elif [[ "$_KERNEL" =~ orbstack ]]; then
+        mac op "$@"
+    else
+        command op "$@"
+    fi
+}
+
+cmd_run() {
+    local account=""
+    local -a cmd_args=()
+    local found_sep=false
 
     while [ $# -gt 0 ]; do
         if [ "$found_sep" = true ]; then
@@ -27,19 +37,20 @@ if [ "${1-}" = "run" ]; then
     done
 
     if [ ${#cmd_args[@]} -eq 0 ]; then
-        echo "op: 'op run' in WSL wrapper requires a command after '--'" >&2
+        echo "op: 'op run' requires a command after '--'" >&2
         exit 1
     fi
 
-    # Resolve environment variables with op:// references on the WSL side
-    read_flags=()
+    local -a read_flags=()
     [ -n "$account" ] && read_flags=("--account" "$account")
 
+    # Resolve environment variables with op:// references before exec
     while IFS= read -r line; do
-        name="${line%%=*}"
-        value="${line#*=}"
+        local name="${line%%=*}"
+        local value="${line#*=}"
         if [[ "$value" == op://* ]]; then
-            resolved=$(op.exe read "${read_flags[@]}" "$value" </dev/null) || {
+            local resolved
+            resolved=$(op read "${read_flags[@]}" "$value" </dev/null) || {
                 echo "op: failed to read secret for $name" >&2
                 exit 1
             }
@@ -48,6 +59,14 @@ if [ "${1-}" = "run" ]; then
     done < <(env)
 
     exec "${cmd_args[@]}"
-else
-    exec op.exe "$@"
-fi
+}
+
+case "${1-}" in
+    run)
+        shift
+        cmd_run "$@"
+        ;;
+    *)
+        op "$@"
+        ;;
+esac
