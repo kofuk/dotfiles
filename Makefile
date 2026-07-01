@@ -88,6 +88,13 @@ op:
 	@ echo 'LN	~/bin/op'
 	@ $(SYMLINK) $(CURDIR)/bin/op $(HOME)/bin/op
 
+.PHONY: docker-credential-op
+docker-credential-op:
+	@ echo 'MKDIR	~/bin'
+	@ mkdir -p $(HOME)/bin
+	@ echo 'LN ~/bin/docker-credential-op'
+	@ $(SYMLINK) $(CURDIR)/bin/docker-credential-op $(HOME)/bin/docker-credential-op
+
 .PHONY: install
 .PHONY: install_minimal
 
@@ -104,7 +111,7 @@ ifeq ($(IS_ORBSTACK),yes)
 install: op
 endif
 
-install: bashrc bash_profile bash_logout claude vimrc clang-format aspell-conf inputrc tmux-conf zshrc
+install: bashrc bash_profile bash_logout claude vimrc clang-format aspell-conf inputrc tmux-conf zshrc docker-credential-op
 	[ -e $(HOME)/.profile ] && mv $(HOME)/.profile $(HOME)/.profile.bak || true
 
 install_minimal: bashrc bash_profile bash_logout inputrc
