@@ -5,9 +5,9 @@
   "permissions": {
     "allow": [
       "Read(**)",
-      "Write(src/**)",
-      "Write(docs/**)",
-      "Write(.tmp/**)",
+      "Edit(src/**)",
+      "Edit(docs/**)",
+      "Edit(.tmp/**)",
       "Bash(git init:*)",
       "Bash(git add:*)",
       "Bash(git status:*)",
@@ -26,7 +26,7 @@
       "Read(.env.*)",
       "Read(id_rsa)",
       "Read(id_ed25519)",
-      "Write(.env*)",
+      "Edit(.env*)",
       "Bash(npm:*)"
     ]
   },
