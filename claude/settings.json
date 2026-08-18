@@ -30,6 +30,7 @@
       "Bash(npm:*)"
     ]
   },
+  "model": "opus[1m]",
   "enableAllProjectMcpServers": false,
   "statusLine": {
     "type": "command",
@@ -46,5 +47,6 @@
   "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "preferredNotifChannel": "terminal_bell",
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "respondToBashCommands": false
 }
