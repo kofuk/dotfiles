@@ -60,4 +60,4 @@ function __construct_prompt() {
     PROMPT_COMMAND="$(cat "${_DOTFILES_BASH_ROOT}/exit_status_prompt.bash")"
 } && __construct_prompt; unset __construct_prompt
 
-PROMPT_DIRTRIM=5
+PROMPT_DIRTRIM=3
